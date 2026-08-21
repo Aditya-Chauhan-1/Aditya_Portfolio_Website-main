@@ -1,0 +1,64 @@
+/* Load AFTER react-vertical-timeline-component/style.min.css */
+
+@media only screen and (max-width: 768px) {
+  .vertical-timeline::before {
+    left: 50% !important;
+    margin-left: -2px;
+  }
+
+  .vertical-timeline.vertical-timeline--two-columns .vertical-timeline-element,
+  .vertical-timeline .vertical-timeline-element {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    margin: 0 0 2.5rem 0 !important;
+  }
+
+  /* Icon sits in a wrapper div; absolute icon collapses it — reserve space */
+  .vertical-timeline .vertical-timeline-element > div:first-child {
+    position: relative !important;
+    width: 100% !important;
+    min-height: 52px !important;
+    height: 52px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-bottom: 20px !important;
+    padding-bottom: 4px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .vertical-timeline.vertical-timeline--two-columns .vertical-timeline-element-icon,
+  .vertical-timeline .vertical-timeline-element-icon {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 48px !important;
+    height: 48px !important;
+    margin: 8px 0 0 0 !important;
+    margin-left: 0 !important;
+    transform: none !important;
+  }
+
+  .vertical-timeline.vertical-timeline--two-columns .vertical-timeline-element-content,
+  .vertical-timeline .vertical-timeline-element-content {
+    position: relative !important;
+    float: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 10px 0 0 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 16px !important;
+  }
+
+  .vertical-timeline-element-content .vertical-timeline-element-date {
+    display: none !important;
+  }
+
+  .vertical-timeline-element-content::before,
+  .vertical-timeline-element-content-arrow {
+    display: none !important;
+  }
+}

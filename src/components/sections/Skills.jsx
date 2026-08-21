@@ -129,8 +129,24 @@ const SkillList = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: ${({ $grouped }) => ($grouped ? "14px" : "20px")};
 `;
+
+const SkillGroup = styled.div`
+  width: 100%;
+  margin-bottom: 6px;
+`;
+
+const SkillGroupTitle = styled.div`
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.primary};
+  text-align: center;
+  margin: 4px 0 10px;
+`;
+
 const SkillItem = styled.div`
   font-size: 16px;
   font-weight: 400;
@@ -162,10 +178,53 @@ const SkillItem = styled.div`
   }
 `;
 
-const SkillImage = styled.img`
+const SkillImg = styled.img`
   width: 24px;
   height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: ${({ $darkLogo, theme }) =>
+    $darkLogo && theme.bg !== "#FFFFFF" ? "brightness(0) invert(1)" : "none"};
 `;
+
+const SkillFallback = styled.span`
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: ${({ theme }) => theme.primary};
+  flex-shrink: 0;
+`;
+
+const SkillIcon = ({ src, name, darkLogo }) => {
+  const [failed, setFailed] = React.useState(false);
+
+  if (failed) {
+    return <SkillFallback aria-hidden="true">{name.charAt(0)}</SkillFallback>;
+  }
+
+  return (
+    <SkillImg
+      src={src}
+      alt=""
+      $darkLogo={darkLogo}
+      onError={() => setFailed(true)}
+    />
+  );
+};
+
+const renderSkillItems = (items, keyPrefix) =>
+  items.map((item, index_x) => (
+    <SkillItem key={`${keyPrefix}-${index_x}`}>
+      <SkillIcon src={item.image} name={item.name} darkLogo={item.darkLogo} />
+      {item.name}
+    </SkillItem>
+  ));
 
 const Skills = () => {
   return (
@@ -181,14 +240,18 @@ const Skills = () => {
             <Tilt key={`skill-${index}`}>
               <Skill index={index}>
                 <SkillTitle>{skill.title}</SkillTitle>
-                <SkillList>
-                  {skill.skills.map((item, index_x) => (
-                    <SkillItem key={`skill-x-${index_x}`}>
-                      <SkillImage src={item.image} alt={item.name} />
-                      {item.name}
-                    </SkillItem>
-                  ))}
-                </SkillList>
+                {skill.groups ? (
+                  skill.groups.map((group) => (
+                    <SkillGroup key={group.title}>
+                      <SkillGroupTitle>{group.title}</SkillGroupTitle>
+                      <SkillList $grouped>
+                        {renderSkillItems(group.skills, group.title)}
+                      </SkillList>
+                    </SkillGroup>
+                  ))
+                ) : (
+                  <SkillList>{renderSkillItems(skill.skills, skill.title)}</SkillList>
+                )}
               </Skill>
             </Tilt>
           ))}

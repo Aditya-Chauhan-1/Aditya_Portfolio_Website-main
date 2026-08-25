@@ -224,32 +224,6 @@ const ContactButton = styled.input`
   }
 `;
 
-const StatusMessage = styled.div`
-  padding: 12px 16px;
-  border-radius: 8px;
-  margin-top: 12px;
-  font-size: 14px;
-  text-align: center;
-  white-space: pre-line;
-  background-color: ${({ type }) => 
-    type === 'success' 
-      ? 'rgba(76, 175, 80, 0.2)' 
-      : 'rgba(244, 67, 54, 0.2)'};
-  color: ${({ type }) => 
-    type === 'success' 
-      ? '#4caf50' 
-      : '#f44336'};
-  border: 1px solid ${({ type }) => 
-    type === 'success' 
-      ? 'rgba(76, 175, 80, 0.5)' 
-      : 'rgba(244, 67, 54, 0.5)'};
-  
-  @media (max-width: 480px) {
-    font-size: 12px;
-    padding: 10px 12px;
-  }
-`;
-
 const EarthWrapper = styled.div`
   flex: 1;
   max-width: 480px;
@@ -271,7 +245,6 @@ const FormWrapper = styled.div`
 const Contact = () => {
   const form = useRef();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState({ type: null, message: '' });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -280,7 +253,6 @@ const Contact = () => {
     const originalValue = submitButton.value;
     
     setIsSubmitting(true);
-    setSubmitStatus({ type: null, message: '' });
     submitButton.value = "Sending...";
     submitButton.disabled = true;
 
@@ -295,10 +267,7 @@ const Contact = () => {
 
     // Validate form
     if (!formData.from_email || !formData.from_name || !formData.message) {
-      setSubmitStatus({ 
-        type: 'error', 
-        message: 'Please fill in all required fields (Name, Email, and Message)' 
-      });
+      toast.error("Please fill in all required fields (Name, Email, and Message)");
       submitButton.value = originalValue;
       submitButton.disabled = false;
       setIsSubmitting(false);
@@ -308,10 +277,7 @@ const Contact = () => {
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.from_email)) {
-      setSubmitStatus({ 
-        type: 'error', 
-        message: 'Please enter a valid email address' 
-      });
+      toast.error("Please enter a valid email address");
       submitButton.value = originalValue;
       submitButton.disabled = false;
       setIsSubmitting(false);
@@ -324,26 +290,14 @@ const Contact = () => {
         ? "If your email app opened, send the message from there. Otherwise I will follow up shortly."
         : "Message sent successfully. I will get back to you soon!";
 
-      setSubmitStatus({
-        type: "success",
-        message: successMessage,
-      });
       toast.success(successMessage);
       form.current.reset();
-      
-      // Clear success message after 5 seconds
-      setTimeout(() => {
-        setSubmitStatus({ type: null, message: '' });
-      }, 5000);
-      
     } catch (error) {
-      console.error('Error:', error);
-      const errorMessage = error.message || 'Failed to send message. Please try again later or contact me directly.';
-      setSubmitStatus({ 
-        type: 'error', 
-        message: errorMessage
-      });
-      toast.error(errorMessage);
+      console.error("Error:", error);
+      toast.error(
+        error.message ||
+          "Failed to send message. Please try again later or contact me directly."
+      );
     } finally {
       submitButton.value = originalValue;
       submitButton.disabled = false;
@@ -401,11 +355,6 @@ const Contact = () => {
                 value={isSubmitting ? "Sending..." : "Send"} 
                 disabled={isSubmitting}
               />
-              {submitStatus.message && (
-                <StatusMessage type={submitStatus.type}>
-                  {submitStatus.message}
-                </StatusMessage>
-              )}
             </ContactForm>
           </FormWrapper>
         </ContentRow>

@@ -254,32 +254,42 @@ const Copyright = styled(motion.p)`
   }
 `;
 
+const FOOTER_NAV = [
+  { label: "Skills", section: "Skills" },
+  { label: "Experience", section: "Experience" },
+  { label: "Projects", section: "Projects" },
+  { label: "Education", section: "Education" },
+  { label: "Achievements", to: "/achievements" },
+  { label: "Contact", section: "Contact" },
+];
+
+const scrollToSection = (targetId) => {
+  const element = document.getElementById(targetId);
+  if (!element) return;
+  const top = element.getBoundingClientRect().top + window.pageYOffset - 80;
+  window.scrollTo({ top, behavior: "smooth" });
+};
+
 const Footer = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleNavClick = (e, targetId) => {
+  const handleNavClick = (e, item) => {
     e.preventDefault();
-    if (location.pathname !== "/") {
-      navigate("/");
-      setTimeout(() => {
-        const element = document.getElementById(targetId);
-        if (!element) return;
-        const top = element.getBoundingClientRect().top + window.pageYOffset - 80;
-        window.scrollTo({ top, behavior: "smooth" });
-      }, 120);
+
+    if (item.to) {
+      navigate(item.to);
+      window.scrollTo({ top: 0, behavior: "instant" });
       return;
     }
-    const element = document.getElementById(targetId);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
+
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => scrollToSection(item.section), 120);
+      return;
     }
+
+    scrollToSection(item.section);
   };
 
   const contactVariants = {
@@ -365,16 +375,15 @@ const Footer = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <NavLink href="#Skills" onClick={(e) => handleNavClick(e, "Skills")}>Skills</NavLink>
-          <NavLink href="#Experience" onClick={(e) => handleNavClick(e, "Experience")}>Experience</NavLink>
-          <NavLink href="#Projects" onClick={(e) => handleNavClick(e, "Projects")}>Projects</NavLink>
-          <NavLink href="#Education" onClick={(e) => handleNavClick(e, "Education")}>Education</NavLink>
-          <NavLink href="/achievements" onClick={(e) => {
-            e.preventDefault();
-            navigate("/achievements");
-            window.scrollTo({ top: 0, behavior: "instant" });
-          }}>Achievements</NavLink>
-          <NavLink href="#Contact" onClick={(e) => handleNavClick(e, "Contact")}>Contact</NavLink>
+          {FOOTER_NAV.map((item) => (
+            <NavLink
+              key={item.label}
+              href={item.to || `#${item.section}`}
+              onClick={(e) => handleNavClick(e, item)}
+            >
+              {item.label}
+            </NavLink>
+          ))}
         </Nav>
 
         <SocialMediaIcons

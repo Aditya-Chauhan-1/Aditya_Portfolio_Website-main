@@ -61,7 +61,7 @@ const Home = () => {
           <Skills />
           <Experience />
         </Wrapper>
-        <Projects openModal={openModal} setOpenModal={setOpenModal} />
+        <Projects setOpenModal={setOpenModal} />
         <Wrapper>
           <Education />
           <Certificates />

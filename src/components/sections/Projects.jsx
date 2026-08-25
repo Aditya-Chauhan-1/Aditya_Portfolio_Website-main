@@ -146,7 +146,7 @@ const PROJECT_CATEGORIES = [
   { key: "android app", label: "ANDROID APPS" },
 ];
 
-const Projects = ({ openModal, setOpenModal }) => {
+const Projects = ({ setOpenModal }) => {
   const [toggle, setToggle] = useState("all");
 
   const filteredProjects = useMemo(() => {
@@ -186,9 +186,8 @@ const Projects = ({ openModal, setOpenModal }) => {
           {filteredProjects.length > 0 ? (
             filteredProjects.map((project, index) => (
               <ProjectCard
-                key={`project-${project.id}-${index}`}
+                key={project.id}
                 project={project}
-                openModal={openModal}
                 setOpenModal={setOpenModal}
                 index={index}
               />

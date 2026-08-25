@@ -1,14 +1,16 @@
-import styled, { keyframes } from "styled-components";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import styled, { css, keyframes } from "styled-components";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SchoolIcon from "@mui/icons-material/School";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import Footer from "../components/sections/Footer";
-import iftmGoldMedal from "../images/education/iftm-gold-medal.jpg";
+import { goldMedalHonour } from "../data/constants";
 import goldMedal from "../images/education/gold-medal.png";
+
+const GOLD = "#f5d76e";
 
 const glow = keyframes`
   0%, 100% { opacity: 0.45; transform: scale(1); }
@@ -18,6 +20,13 @@ const glow = keyframes`
 const float = keyframes`
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
+`;
+
+const surface = css`
+  background: ${({ theme }) =>
+    theme.bg === "#FFFFFF" ? "rgba(255,255,255,0.95)" : "rgba(17, 25, 40, 0.83)"};
+  border: 1px solid ${({ theme }) =>
+    theme.bg === "#FFFFFF" ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.12)"};
 `;
 
 const Page = styled.div`
@@ -39,7 +48,7 @@ const Banner = styled.section`
     position: absolute;
     inset: auto 0 0 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, #f5d76e, ${({ theme }) => theme.primary}, transparent);
+    background: linear-gradient(90deg, transparent, ${GOLD}, ${({ theme }) => theme.primary}, transparent);
   }
 `;
 
@@ -95,7 +104,7 @@ const Eyebrow = styled.div`
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #f5d76e;
+  color: ${GOLD};
   background: rgba(245, 215, 110, 0.1);
   border: 1px solid rgba(245, 215, 110, 0.35);
   margin-bottom: 16px;
@@ -109,7 +118,7 @@ const Title = styled.h1`
   margin-bottom: 12px;
 
   span {
-    background: linear-gradient(90deg, #f5d76e, #ffe9a3, #f5d76e);
+    background: linear-gradient(90deg, ${GOLD}, #ffe9a3, ${GOLD});
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -144,16 +153,16 @@ const Stats = styled.div`
 const Stat = styled.div`
   padding: 14px 12px;
   border-radius: 14px;
+  text-align: center;
   background: ${({ theme }) =>
     theme.bg === "#FFFFFF" ? "rgba(255,255,255,0.8)" : "rgba(17, 25, 40, 0.7)"};
   border: 1px solid rgba(245, 215, 110, 0.2);
-  text-align: center;
 `;
 
 const StatValue = styled.div`
   font-size: 20px;
   font-weight: 800;
-  color: #f5d76e;
+  color: ${GOLD};
 `;
 
 const StatLabel = styled.div`
@@ -178,9 +187,8 @@ const Content = styled.div`
 `;
 
 const PhotoCard = styled.div`
-  background: ${({ theme }) =>
-    theme.bg === "#FFFFFF" ? "rgba(255,255,255,0.95)" : "rgba(17, 25, 40, 0.65)"};
-  border: 1px solid ${({ theme }) =>
+  ${surface}
+  border-color: ${({ theme }) =>
     theme.bg === "#FFFFFF" ? "rgba(0,0,0,0.08)" : "rgba(245, 215, 110, 0.18)"};
   border-radius: 22px;
   padding: 14px;
@@ -210,10 +218,7 @@ const Details = styled.div`
 `;
 
 const Card = styled.div`
-  background: ${({ theme }) =>
-    theme.bg === "#FFFFFF" ? "rgba(255,255,255,0.95)" : "rgba(17, 25, 40, 0.83)"};
-  border: 1px solid ${({ theme }) =>
-    theme.bg === "#FFFFFF" ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.12)"};
+  ${surface}
   border-radius: 18px;
   padding: 24px;
 `;
@@ -227,7 +232,7 @@ const Heading = styled.h2`
   gap: 8px;
 
   svg {
-    color: #f5d76e;
+    color: ${GOLD};
   }
 `;
 
@@ -289,7 +294,7 @@ const Highlight = styled.li`
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #f5d76e;
+    background: ${GOLD};
   }
 `;
 
@@ -325,33 +330,23 @@ const Achievements = () => {
       <Banner>
         <BannerInner>
           <MedalWrap>
-            <Medal src={goldMedal} alt="Gold Medal" />
+            <Medal src={goldMedal} alt="University gold medal" />
           </MedalWrap>
           <BannerCopy>
             <Eyebrow>
-              <MilitaryTechIcon fontSize="small" /> Academic Excellence
+              <MilitaryTechIcon fontSize="small" /> {goldMedalHonour.eyebrow}
             </Eyebrow>
             <Title>
-              Gold Medalist, <span>IFTM University</span>
+              {goldMedalHonour.title} <span>{goldMedalHonour.titleAccent}</span>
             </Title>
-            <Sub>
-              Honoured with the University Gold Medal at IFTM University,
-              Moradabad for academic excellence in the Polytechnic Diploma in
-              Computer Science and Engineering.
-            </Sub>
+            <Sub>{goldMedalHonour.subtitle}</Sub>
             <Stats>
-              <Stat>
-                <StatValue>Gold</StatValue>
-                <StatLabel>Medal Award</StatLabel>
-              </Stat>
-              <Stat>
-                <StatValue>8.98</StatValue>
-                <StatLabel>CGPA</StatLabel>
-              </Stat>
-              <Stat>
-                <StatValue>2021</StatValue>
-                <StatLabel>6th Convocation</StatLabel>
-              </Stat>
+              {goldMedalHonour.stats.map((stat) => (
+                <Stat key={stat.label}>
+                  <StatValue>{stat.value}</StatValue>
+                  <StatLabel>{stat.label}</StatLabel>
+                </Stat>
+              ))}
             </Stats>
           </BannerCopy>
         </BannerInner>
@@ -359,13 +354,8 @@ const Achievements = () => {
 
       <Content>
         <PhotoCard>
-          <Photo
-            src={iftmGoldMedal}
-            alt="Aditya Chauhan with Gold Medal at IFTM University Sixth Convocation 2021"
-          />
-          <Caption>
-            Sixth Convocation 2021 — IFTM University, Moradabad
-          </Caption>
+          <Photo src={goldMedalHonour.photo} alt={goldMedalHonour.photoAlt} />
+          <Caption>{goldMedalHonour.photoCaption}</Caption>
         </PhotoCard>
 
         <Details>
@@ -374,30 +364,12 @@ const Achievements = () => {
               <SchoolIcon /> Academic Honour
             </Heading>
             <Meta>
-              <Row>
-                <Label>University</Label>
-                <Value>IFTM University, Moradabad</Value>
-              </Row>
-              <Row>
-                <Label>Department</Label>
-                <Value>Computer Science & Engineering</Value>
-              </Row>
-              <Row>
-                <Label>Degree</Label>
-                <Value>Polytechnic Diploma — CSE</Value>
-              </Row>
-              <Row>
-                <Label>Duration</Label>
-                <Value>Oct 2019 — Sep 2021</Value>
-              </Row>
-              <Row>
-                <Label>Convocation</Label>
-                <Value>Sixth Convocation, 2021</Value>
-              </Row>
-              <Row>
-                <Label>Distinction</Label>
-                <Value>Gold Medalist · 8.98 CGPA</Value>
-              </Row>
+              {goldMedalHonour.honour.map((item) => (
+                <Row key={item.label}>
+                  <Label>{item.label}</Label>
+                  <Value>{item.value}</Value>
+                </Row>
+              ))}
             </Meta>
           </Card>
 
@@ -405,29 +377,11 @@ const Achievements = () => {
             <Heading>
               <WorkspacePremiumIcon /> Why this medal matters
             </Heading>
-            <Story>
-              This University Gold Medal was awarded for academic excellence
-              across the full diploma programme — not a single exam, but
-              consistent performance in Computer Science and Engineering. It
-              represents discipline, strong fundamentals, and recognition by
-              the university for finishing at the top of the department.
-            </Story>
+            <Story>{goldMedalHonour.story}</Story>
             <Highlights>
-              <Highlight>
-                Ranked among the top students of the Department of Computer
-                Science & Engineering.
-              </Highlight>
-              <Highlight>
-                Completed Polytechnic Diploma (2019–2021) with 8.98 CGPA.
-              </Highlight>
-              <Highlight>
-                Formally recognised at IFTM University’s Sixth Convocation,
-                2021, in the presence of university leadership.
-              </Highlight>
-              <Highlight>
-                Built a foundation in programming, databases, networks, and
-                software engineering that continues in professional work today.
-              </Highlight>
+              {goldMedalHonour.highlights.map((item) => (
+                <Highlight key={item}>{item}</Highlight>
+              ))}
             </Highlights>
           </Card>
 
@@ -435,12 +389,7 @@ const Achievements = () => {
             <Heading>
               <AutoStoriesIcon /> From classroom to career
             </Heading>
-            <Story>
-              The same focus that earned this medal now drives my work as a
-              Software Engineer, Technical Corporate Trainer, and Data
-              Scientist — teaching clearly, building carefully, and holding a
-              high bar for quality.
-            </Story>
+            <Story>{goldMedalHonour.career}</Story>
             <BackButton type="button" onClick={() => navigate("/")}>
               <ArrowBackIcon fontSize="small" /> Back to Home
             </BackButton>

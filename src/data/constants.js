@@ -36,12 +36,6 @@ export const stats = [
   { value: "MERN", label: "Core Stack" },
 ];
 
-export const aboutHighlights = [
-  "Building production web and mobile apps for international clients at Palmspire IT Solutions, Canada.",
-  "Trained students and professionals in Full Stack (MERN) and Data Science at Coding Blocks with real-world project work.",
-  "Hands-on with React, Node.js, MongoDB, REST APIs, and Generative AI (RAG, LangChain, LLMs).",
-];
-
 export const services = [
   {
     title: "Full Stack Development",
@@ -376,7 +370,6 @@ export const education = [
     desc: "Completed Polytechnic Diploma in Computer Science and Engineering from the Department of Computer Science & Engineering. Awarded the Gold Medal at IFTM University's Sixth Convocation, 2021, for academic excellence.",
     degree: "Polytechnic Diploma — Computer Science and Engineering",
     achievement: "Gold Medalist — Sixth Convocation 2021",
-    photo: iftmGoldMedal,
   },
   {
     id: 2,
@@ -398,9 +391,44 @@ export const education = [
   },
 ];
 
+export const goldMedalHonour = {
+  photo: iftmGoldMedal,
+  photoAlt:
+    "Aditya Chauhan with Gold Medal at IFTM University Sixth Convocation 2021",
+  photoCaption: "Sixth Convocation 2021 — IFTM University, Moradabad",
+  eyebrow: "Academic Excellence",
+  title: "Gold Medalist,",
+  titleAccent: "IFTM University",
+  subtitle:
+    "Honoured with the University Gold Medal at IFTM University, Moradabad for academic excellence in the Polytechnic Diploma in Computer Science and Engineering.",
+  stats: [
+    { value: "Gold", label: "Medal Award" },
+    { value: "8.98", label: "CGPA" },
+    { value: "2021", label: "6th Convocation" },
+  ],
+  honour: [
+    { label: "University", value: "IFTM University, Moradabad" },
+    { label: "Department", value: "Computer Science & Engineering" },
+    { label: "Degree", value: "Polytechnic Diploma — CSE" },
+    { label: "Duration", value: "Oct 2019 — Sep 2021" },
+    { label: "Convocation", value: "Sixth Convocation, 2021" },
+    { label: "Distinction", value: "Gold Medalist · 8.98 CGPA" },
+  ],
+  story:
+    "This University Gold Medal was awarded for academic excellence across the full diploma programme — not a single exam, but consistent performance in Computer Science and Engineering. It represents discipline, strong fundamentals, and recognition by the university for finishing at the top of the department.",
+  highlights: [
+    "Ranked among the top students of the Department of Computer Science & Engineering.",
+    "Completed Polytechnic Diploma (2019–2021) with 8.98 CGPA.",
+    "Formally recognised at IFTM University’s Sixth Convocation, 2021, in the presence of university leadership.",
+    "Built a foundation in programming, databases, networks, and software engineering that continues in professional work today.",
+  ],
+  career:
+    "The same focus that earned this medal now drives my work as a Software Engineer, Technical Corporate Trainer, and Data Scientist — teaching clearly, building carefully, and holding a high bar for quality.",
+};
+
 export const projects = [
   {
-    id: 13,
+    id: 1,
     title: "ML Workbench",
     date: "Machine Learning",
     description:
@@ -412,7 +440,7 @@ export const projects = [
     webapp: "https://machine-learning-dashboard.onrender.com/",
   },
   {
-    id: 5,
+    id: 2,
     title: "Immigration Service Website",
     date: "Client Project",
     description:
@@ -424,7 +452,7 @@ export const projects = [
     webapp: "https://global-immigration-serv.vercel.app/",
   },
   {
-    id: 12,
+    id: 3,
     title: "MERN Stack CRUD App",
     date: "Full Stack",
     description:
@@ -436,7 +464,7 @@ export const projects = [
     webapp: "https://mern-stack-crud-lime.vercel.app/",
   },
   {
-    id: 11,
+    id: 4,
     title: "Weather Application",
     date: "Frontend",
     description:
@@ -448,7 +476,7 @@ export const projects = [
     webapp: "https://weather-application-taupe-three.vercel.app/",
   },
   {
-    id: 1,
+    id: 5,
     title: "React Ecommerce UI",
     date: "Frontend",
     description:
@@ -460,7 +488,7 @@ export const projects = [
     webapp: "https://react-ecommerce-website-ui.vercel.app/",
   },
   {
-    id: 0,
+    id: 6,
     title: "QR Code Generator",
     date: "Full Stack",
     description:
@@ -472,7 +500,7 @@ export const projects = [
     webapp: "https://qrcode-generator-x3cc.onrender.com/",
   },
   {
-    id: 9,
+    id: 7,
     title: "To-Do List",
     date: "Frontend",
     description:

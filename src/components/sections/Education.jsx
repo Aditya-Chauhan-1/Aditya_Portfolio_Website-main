@@ -53,8 +53,8 @@ const Education = () => {
         <VerticalTimeline
           lineColor="rgba(133, 76, 230, 0.3)"
         >
-          {education.map((education, index) => (
-            <EducationCard key={`education-${index}`} education={education} index={index} />
+          {education.map((item, index) => (
+            <EducationCard key={item.id} education={item} index={index} />
           ))}
         </VerticalTimeline>
       </Wrapper>

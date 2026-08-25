@@ -94,7 +94,6 @@ const Title = styled.div`
   font-size: 20px;
   font-weight: 600;
   color: ${({ theme }) => theme.text_secondary};
-  overflow: hidden;
   display: -webkit-box;
   max-width: 100%;
   -webkit-line-clamp: 2;

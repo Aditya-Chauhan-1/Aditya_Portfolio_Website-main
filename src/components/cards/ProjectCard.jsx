@@ -14,51 +14,52 @@ const fadeInUp = keyframes`
 
 const Card = styled.div`
   width: 330px;
-  height: 490px;
+  min-height: 520px;
+  height: auto;
   background-color: ${({ theme }) => theme.card};
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 16px;
   box-shadow: 0 0 12px 4px rgba(0, 0, 0, 0.4);
   overflow: hidden;
-  padding: 26px 20px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   transition: all 0.5s ease-in-out;
   animation: ${fadeInUp} 0.6s ease-out forwards;
   opacity: 0;
   animation-delay: ${({ index }) => (index || 0) * 0.1}s;
-  
+
   &:hover {
     transform: translateY(-10px);
     box-shadow: 0 0 50px 4px rgba(0, 0, 0, 0.6);
     filter: brightness(1.1);
   }
-  
+
   @media (max-width: 768px) {
     width: 100%;
     max-width: 400px;
-    height: auto;
-    min-height: 450px;
+    min-height: 0;
   }
-  
+
   @media (max-width: 480px) {
     width: 100%;
     max-width: 100%;
-    padding: 20px 16px;
-    min-height: 420px;
+    padding: 16px;
   }
 `;
 const Image = styled.img`
   width: 100%;
-  height: 180px;
+  height: 190px;
   background-color: ${({ theme }) => theme.white};
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: 0 0 16px 2px rgba(0, 0, 0, 0.3);
   object-fit: cover;
-  
+  object-position: top center;
+  flex-shrink: 0;
+
   @media (max-width: 480px) {
-    height: 160px;
+    height: 170px;
   }
 `;
 const Tags = styled.div`
@@ -121,55 +122,103 @@ const Date = styled.div`
 const Description = styled.div`
   font-weight: 400;
   color: ${({ theme }) => theme.text_secondary + 99};
-  overflow: hidden;
   margin-top: 8px;
-  display: -webkit-box;
-  max-width: 100%;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  text-overflow: ellipsis;
   font-size: 14px;
-  line-height: 1.5;
-  
+  line-height: 1.55;
+
   @media (max-width: 480px) {
     font-size: 13px;
-    -webkit-line-clamp: 2;
   }
 `;
-const Members = styled.div`
+const ButtonRow = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+`;
+
+const ActionButton = styled.a`
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: ${({ $primary, theme }) => ($primary ? "#fff" : theme.primary)};
+  background: ${({ $primary, theme }) => ($primary ? theme.primary : "transparent")};
+  border: 1px solid ${({ theme }) => theme.primary};
+  transition: all 0.25s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+  }
+`;
+
+const FallbackImage = styled.div`
+  width: 100%;
+  height: 190px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
-  padding-left: 10px;
-`;
-const Avatar = styled.img`
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  margin-left: -10px;
-  background-color: ${({ theme }) => theme.white};
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  border: 3px solid ${({ theme }) => theme.card};
+  justify-content: center;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #854ce6, #c026d3);
+
+  @media (max-width: 480px) {
+    height: 170px;
+  }
 `;
 
 const ProjectCard = ({ project, setOpenModal, index }) => {
+  const [imgError, setImgError] = React.useState(false);
+
   return (
     <Card index={index} onClick={() => setOpenModal({ state: true, project: project })}>
-      <Image src={project.image} alt={project.title} loading="lazy" />
+      {project.image && !imgError ? (
+        <Image
+          src={project.image}
+          alt={project.title}
+          loading="lazy"
+          onError={() => setImgError(true)}
+        />
+      ) : (
+        <FallbackImage>{project.title}</FallbackImage>
+      )}
       <Tags>
-        {project.tags?.map((tag, index) => (
-          <Tag key={`tag-${index}`}>{tag}</Tag>
+        {project.tags?.map((tag, tagIndex) => (
+          <Tag key={`tag-${tagIndex}`}>{tag}</Tag>
         ))}
       </Tags>
       <Details>
         <Title>{project.title}</Title>
-        <Date>{project.date}</Date>
+        {project.date && <Date>{project.date}</Date>}
         <Description>{project.description}</Description>
       </Details>
-      <Members>
-        {project.member?.map((member, index) => (
-          <Avatar key={`member-${index}`} src={member.img} alt={member.name} />
-        ))}
-      </Members>
+      <ButtonRow>
+        {project.github && (
+          <ActionButton
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+          >
+            Code
+          </ActionButton>
+        )}
+        {project.webapp && (
+          <ActionButton
+            href={project.webapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            $primary
+            onClick={(e) => e.stopPropagation()}
+          >
+            Live
+          </ActionButton>
+        )}
+      </ButtonRow>
     </Card>
   );
 };

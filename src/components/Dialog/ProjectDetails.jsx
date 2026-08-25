@@ -184,13 +184,14 @@ const Button = styled.a`
 
 const ProjectDetails = ({ openModal, setOpenModal }) => {
   const project = openModal?.project;
+  if (!project) return null;
+
+  const close = () => setOpenModal({ state: false, project: null });
+
   return (
-    <Modal
-      open={true}
-      onClose={() => setOpenModal({ state: false, project: null })}
-    >
-      <Container>
-        <Wrapper>
+    <Modal open={true} onClose={close}>
+      <Container onClick={close}>
+        <Wrapper onClick={(e) => e.stopPropagation()}>
           <CloseRounded
             style={{
               position: "absolute",
@@ -198,53 +199,61 @@ const ProjectDetails = ({ openModal, setOpenModal }) => {
               right: "20px",
               cursor: "pointer",
             }}
-            onClick={() => setOpenModal({ state: false, project: null })}
+            onClick={close}
           />
-          <Image src={project?.image} />
-          <Title>{project?.title}</Title>
-          <Date>{project.date}</Date>
+          {project.image && <Image src={project.image} alt={project.title} />}
+          <Title>{project.title}</Title>
+          {project.date && <Date>{project.date}</Date>}
           <Tags>
-            {project?.tags.map((tag, index) => (
+            {project.tags?.map((tag, index) => (
               <Tag key={`tag-${index}`}>{tag}</Tag>
             ))}
           </Tags>
-          <Desc>{project?.description}</Desc>
+          <Desc>{project.description}</Desc>
           {project.member && (
             <>
               <Label>Members</Label>
               <Members>
-                {project?.member.map((member, index) => (
+                {project.member.map((member, index) => (
                   <Member key={`member-${index}`}>
                     <MemberImage src={member.img} alt={member.name} />
                     <MemberName>{member.name}</MemberName>
-                    <a
-                      href={member.github}
-                      target="new"
-                      rel="noopener noreferrer"
-                      style={{ textDecoration: "none", color: "inherit" }}
-                    >
-                      <GitHub />
-                    </a>
-                    <a
-                      href={member.linkedin}
-                      target="new"
-                      rel="noopener noreferrer"
-                      style={{ textDecoration: "none", color: "inherit" }}
-                    >
-                      <LinkedIn />
-                    </a>
+                    {member.github && (
+                      <a
+                        href={member.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
+                        <GitHub />
+                      </a>
+                    )}
+                    {member.linkedin && (
+                      <a
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
+                        <LinkedIn />
+                      </a>
+                    )}
                   </Member>
                 ))}
               </Members>
             </>
           )}
           <ButtonGroup>
-            <Button dull href={project?.github} target="new" rel="noopener noreferrer">
-              View Code
-            </Button>
-            <Button href={project?.webapp} target="new" rel="noopener noreferrer">
-              View Live App
-            </Button>
+            {project.github && (
+              <Button dull href={project.github} target="_blank" rel="noopener noreferrer">
+                View Code
+              </Button>
+            )}
+            {project.webapp && (
+              <Button href={project.webapp} target="_blank" rel="noopener noreferrer">
+                View Live App
+              </Button>
+            )}
           </ButtonGroup>
         </Wrapper>
       </Container>

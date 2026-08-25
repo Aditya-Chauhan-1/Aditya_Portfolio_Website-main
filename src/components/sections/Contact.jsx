@@ -319,13 +319,16 @@ const Contact = () => {
     }
 
     try {
-      await sendEmail(formData);
-      
-      setSubmitStatus({ 
-        type: 'success', 
-        message: 'Message Successfully Sent ✅\nI will get back to you soon!' 
+      const result = await sendEmail(formData);
+      const successMessage = result?.fallback
+        ? "If your email app opened, send the message from there. Otherwise I will follow up shortly."
+        : "Message sent successfully. I will get back to you soon!";
+
+      setSubmitStatus({
+        type: "success",
+        message: successMessage,
       });
-      toast.success('Message sent successfully! I will get back to you soon.');
+      toast.success(successMessage);
       form.current.reset();
       
       // Clear success message after 5 seconds
@@ -361,7 +364,7 @@ const Contact = () => {
           </EarthWrapper>
           <FormWrapper>
             <ContactForm ref={form} onSubmit={handleSubmit}>
-              <ContactTitle>Email Me 🚀</ContactTitle>
+              <ContactTitle>Email Me</ContactTitle>
               <ContactInput 
                 placeholder="Your Email *" 
                 name="from_email" 

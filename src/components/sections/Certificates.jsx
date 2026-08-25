@@ -548,10 +548,6 @@ const Certificates = () => {
     }
   };
 
-  if (certificates.length === 0) {
-    return null;
-  }
-
   return (
     <Container id="Certificates">
       <Wrapper>

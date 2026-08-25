@@ -1,7 +1,7 @@
 {
-  "name": "3d-portfolio-website",
-  "version": "0.1.1",
-  "homepage": "https://rishavchanda.github.io",
+  "name": "aditya-chauhan-portfolio",
+  "version": "1.0.0",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@emailjs/browser": "^4.1.0",
@@ -71,7 +71,7 @@
   "description": "Welcome to my portfolio! This project showcases my skills, projects, and experiences as a web developer.",
   "main": "index.js",
   "keywords": [],
-  "author": "",
+  "author": "Aditya Chauhan",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^9.2.1",

@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
+import EmailIcon from "@mui/icons-material/Email";
 import DescriptionIcon from "@mui/icons-material/Description";
 import {
   headContainerAnimation,
@@ -220,24 +221,22 @@ const ResumeButton = styled.a`
     hsla(271, 100%, 50%, 1) 0%,
     hsla(294, 100%, 50%, 1) 100%
   );
-  box-shadow: 20px 20px 60px #1f2634, -20px -20px 60px #1f2634;
+  box-shadow: 0 10px 30px rgba(133, 76, 230, 0.35);
   border-radius: 50px;
   font-weight: 600;
   font-size: 20px;
+  color: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-     &:hover {
-        transform: scale(1.05);
-    transition: all 0.4s ease-in-out;
-    box-shadow:  20px 20px 60px #1F2634,
-    filter: brightness(1);
-    }    
-    
-    
-    @media (max-width: 640px) {
-        padding: 12px 0;
-        font-size: 18px;
-    } 
-    color: white;
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 14px 36px rgba(133, 76, 230, 0.5);
+  }
+
+  @media (max-width: 640px) {
+    padding: 12px 24px;
+    font-size: 18px;
+  }
 `;
 
 const ContactButton = styled.a`
@@ -366,9 +365,38 @@ const HeroBg = styled.div`
   }
 `;
 
+const Badge = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.primary};
+  background: ${({ theme }) => theme.primary + "18"};
+  border: 1px solid ${({ theme }) => theme.primary + "50"};
+  margin-bottom: 16px;
+  width: fit-content;
+
+  &::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2);
+  }
+
+  @media (max-width: 960px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+`;
+
 const Hero = () => {
   return (
-    <div id="About">
+    <div id="Home">
       <HeroContainer>
         <HeroBg>
           <StarCanvas />
@@ -379,6 +407,7 @@ const Hero = () => {
           <HeroInnerContainer>
             <HeroLeftContainer>
               <motion.div {...headTextAnimation}>
+                <Badge>{Bio.availability}</Badge>
                 <Title>
                   Hi, I am <br /> {Bio.name}
                 </Title>
@@ -421,6 +450,9 @@ const Hero = () => {
                   </SocialButton>
                   <SocialButton href={Bio.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
                     <LinkedInIcon />
+                  </SocialButton>
+                  <SocialButton href={`mailto:${Bio.email}`} aria-label="Send email">
+                    <EmailIcon />
                   </SocialButton>
                   <SocialButton href={Bio.insta} target="_blank" rel="noopener noreferrer" aria-label="Instagram profile">
                     <InstagramIcon />

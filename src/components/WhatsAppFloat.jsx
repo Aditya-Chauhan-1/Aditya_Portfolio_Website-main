@@ -6,7 +6,7 @@ import { Bio } from "../data/constants";
 const WhatsAppButton = styled.a`
   position: fixed;
   bottom: 30px;
-  right: 90px;
+  right: 96px;
   width: 60px;
   height: 60px;
   background: #25d366;

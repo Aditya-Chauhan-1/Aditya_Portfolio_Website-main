@@ -11,7 +11,7 @@ const Container = styled.div`
   margin-top: 100px;
   display: flex;
   flex-direction: column;
-  justify-content-center;
+  justify-content: center;
   position: relative;
   z-index: 1;
   align-items: center;
@@ -47,7 +47,7 @@ const Education = () => {
       <Wrapper>
         <SectionHeader
           title="Education"
-          description="My academic background in Computer Science — from diploma to Bachelor's degree."
+          description="Academic journey in Computer Science — including a Gold Medal at IFTM University, Moradabad."
         />
 
         <VerticalTimeline

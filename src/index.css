@@ -209,9 +209,8 @@ input, textarea, select {
 
 /* Better touch targets for mobile devices */
 @media (max-width: 768px) {
-  button, a, input, textarea, select {
-    min-height: 44px; /* iOS recommended touch target */
-    min-width: 44px;
+  button, a[href], input, textarea, select {
+    min-height: 44px;
   }
 }
 
@@ -229,10 +228,8 @@ input, textarea, select {
   }
 }
 
-/* Fix for older browsers */
 @supports not (display: grid) {
-  /* Fallback for very old browsers */
-  * {
+  .flex-container {
     display: block;
   }
 }

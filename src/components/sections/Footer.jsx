@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Bio } from "../../data/constants";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -254,8 +255,21 @@ const Copyright = styled(motion.p)`
 `;
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleNavClick = (e, targetId) => {
     e.preventDefault();
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        const element = document.getElementById(targetId);
+        if (!element) return;
+        const top = element.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top, behavior: "smooth" });
+      }, 120);
+      return;
+    }
     const element = document.getElementById(targetId);
     if (element) {
       const offset = 80;
@@ -295,7 +309,7 @@ const Footer = () => {
 
         <ContactInfo>
           <ContactItem
-            href="mailto:aadityachauhan6395@gmail.com"
+            href={`mailto:${Bio.email}`}
             custom={0}
             initial="hidden"
             whileInView="visible"
@@ -307,7 +321,7 @@ const Footer = () => {
             <ContactIcon>
               <EmailIcon />
             </ContactIcon>
-            <ContactText>aadityachauhan6395@gmail.com</ContactText>
+            <ContactText>{Bio.email}</ContactText>
           </ContactItem>
 
           <ContactItem
@@ -327,7 +341,7 @@ const Footer = () => {
           </ContactItem>
 
           <ContactItem
-            href="https://maps.google.com/?q=Amroha,UP,India"
+            href={`https://maps.google.com/?q=${encodeURIComponent(Bio.location)}`}
             target="_blank"
             rel="noopener noreferrer"
             custom={2}
@@ -341,7 +355,7 @@ const Footer = () => {
             <ContactIcon>
               <LocationOnIcon />
             </ContactIcon>
-            <ContactText>District Amroha, UP, India 244221</ContactText>
+            <ContactText>{Bio.location}</ContactText>
           </ContactItem>
         </ContactInfo>
 
@@ -351,12 +365,15 @@ const Footer = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <NavLink href="#About" onClick={(e) => handleNavClick(e, "About")}>About</NavLink>
           <NavLink href="#Skills" onClick={(e) => handleNavClick(e, "Skills")}>Skills</NavLink>
           <NavLink href="#Experience" onClick={(e) => handleNavClick(e, "Experience")}>Experience</NavLink>
           <NavLink href="#Projects" onClick={(e) => handleNavClick(e, "Projects")}>Projects</NavLink>
           <NavLink href="#Education" onClick={(e) => handleNavClick(e, "Education")}>Education</NavLink>
-          <NavLink href="#Certificates" onClick={(e) => handleNavClick(e, "Certificates")}>Certificates</NavLink>
+          <NavLink href="/achievements" onClick={(e) => {
+            e.preventDefault();
+            navigate("/achievements");
+            window.scrollTo({ top: 0, behavior: "instant" });
+          }}>Achievements</NavLink>
           <NavLink href="#Contact" onClick={(e) => handleNavClick(e, "Contact")}>Contact</NavLink>
         </Nav>
 

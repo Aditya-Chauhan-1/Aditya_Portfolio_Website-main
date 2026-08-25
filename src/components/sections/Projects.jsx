@@ -142,6 +142,7 @@ const EmptyState = styled.div`
 const PROJECT_CATEGORIES = [
   { key: "all", label: "ALL" },
   { key: "web app", label: "WEB APPS" },
+  { key: "machine learning", label: "MACHINE LEARNING" },
   { key: "android app", label: "ANDROID APPS" },
 ];
 
@@ -164,7 +165,7 @@ const Projects = ({ openModal, setOpenModal }) => {
       <Wrapper>
         <SectionHeader
           title="Projects"
-          description="A collection of web applications I've built — from productivity tools to client-facing platforms."
+          description="A collection of web applications and machine learning tools I've built — from client platforms to model studios."
         />
         {visibleCategories.length > 1 && (
           <ToggleButtonGroup>

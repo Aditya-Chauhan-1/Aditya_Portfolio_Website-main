@@ -104,7 +104,23 @@ const Description = styled.div`
     font-size: 12px;
   }
 `;
-const Span = styled.div``;
+const Achievement = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #f5d76e;
+  background: rgba(245, 215, 110, 0.12);
+  border: 1px solid rgba(245, 215, 110, 0.35);
+
+  @media only screen and (max-width: 768px) {
+    font-size: 12px;
+  }
+`;
 
 const EducationCard = ({ education, index }) => {
   const theme = useTheme();
@@ -154,12 +170,13 @@ const EducationCard = ({ education, index }) => {
           </Body>
         </Top>
         <Grade>
-          <b>Grade :</b>
+          <b>Grade : </b>
           {education.grade}
         </Grade>
-        <Description>
-          <Span>{education.desc}</Span>
-        </Description>
+        {education.achievement && (
+          <Achievement>🏆 {education.achievement}</Achievement>
+        )}
+        <Description>{education.desc}</Description>
       </AnimatedContent>
     </VerticalTimelineElement>
   );

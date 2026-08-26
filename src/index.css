@@ -37,6 +37,11 @@ body {
   max-width: 100vw;
 }
 
+html.nav-open,
+body.nav-open {
+  overflow: hidden;
+}
+
 /* Theme-aware scrollbar */
 html[data-theme="light"] ::-webkit-scrollbar-track {
   background: #f0f0f0;

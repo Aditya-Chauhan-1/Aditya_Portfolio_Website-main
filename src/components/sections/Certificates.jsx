@@ -176,41 +176,40 @@ const CloseBtn = styled.button`
 
 const Stage = styled.div`
   position: relative;
-  width: min(860px, 100%);
-  display: flex;
-  flex-direction: column;
+  width: min(920px, 100%);
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) 56px;
+  grid-template-areas:
+    "prev viewer next"
+    ". caption ."
+    ". dots .";
+  column-gap: 8px;
+  row-gap: 14px;
   align-items: center;
 
   @media (max-width: 700px) {
     width: 100%;
-    display: grid;
     grid-template-columns: 52px minmax(0, 1fr) 52px;
     grid-template-areas:
-      "frame frame frame"
+      "viewer viewer viewer"
       "caption caption caption"
       "prev . next"
       "dots dots dots";
     column-gap: 10px;
     row-gap: 10px;
-    align-items: center;
     touch-action: pan-y;
   }
 `;
 
 const Viewer = styled.div`
-  position: relative;
+  grid-area: viewer;
   width: 100%;
-
-  @media (max-width: 700px) {
-    display: contents;
-  }
+  min-width: 0;
 `;
 
 const NavBtn = styled.button`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  ${({ $side }) => ($side === "left" ? "left: -18px;" : "right: -18px;")}
+  grid-area: ${({ $side }) => ($side === "left" ? "prev" : "next")};
+  justify-self: center;
   width: 48px;
   height: 48px;
   min-width: 48px;
@@ -231,19 +230,16 @@ const NavBtn = styled.button`
   }
 
   @media (max-width: 700px) {
-    position: static;
-    transform: none;
-    grid-area: ${({ $side }) => ($side === "left" ? "prev" : "next")};
     width: 52px;
     height: 52px;
     min-width: 52px;
     min-height: 52px !important;
-    justify-self: center;
   }
 `;
 
 const Frame = styled.div`
   width: 100%;
+  height: min(62vh, 560px);
   background: #fff;
   border-radius: 18px;
   padding: 14px;
@@ -253,33 +249,35 @@ const Frame = styled.div`
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
 
   img {
+    display: block;
     width: 100%;
-    max-height: 62vh;
+    height: 100%;
     object-fit: contain;
     border-radius: 10px;
   }
 
   @media (max-width: 700px) {
-    grid-area: frame;
+    height: 52vh;
+    min-height: 52vh;
     border-radius: 22px;
     padding: 8px;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
 
     img {
-      max-height: 52vh;
       border-radius: 16px;
     }
   }
 `;
 
 const Caption = styled.div`
-  margin-top: 18px;
+  grid-area: caption;
+  margin-top: 4px;
   text-align: center;
   color: #fff;
   max-width: 720px;
+  justify-self: center;
 
   @media (max-width: 700px) {
-    grid-area: caption;
     margin-top: 2px;
     padding: 0 8px;
   }
@@ -312,15 +310,16 @@ const Counter = styled.p`
 `;
 
 const Dots = styled.div`
+  grid-area: dots;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 7px;
-  margin-top: 14px;
+  margin-top: 0;
   max-width: 100%;
+  justify-self: center;
 
   @media (max-width: 700px) {
-    grid-area: dots;
     margin-top: 2px;
   }
 `;
@@ -343,7 +342,11 @@ const Certificates = () => {
   const touchStartX = useRef(null);
 
   const close = () => setActive(null);
-  const show = (index) => setActive(index);
+  const show = (index) => {
+    const preload = new Image();
+    preload.src = certificates[index].image;
+    setActive(index);
+  };
 
   const next = () => {
     setActive((i) => (i + 1) % certificates.length);
@@ -377,6 +380,16 @@ const Certificates = () => {
     document.body.style.overflow = "hidden";
     document.body.classList.add("lightbox-open");
     window.addEventListener("keydown", onKey);
+
+    const neighbors = [
+      certificates[(active + 1) % certificates.length],
+      certificates[active === 0 ? certificates.length - 1 : active - 1],
+    ];
+    neighbors.forEach((cert) => {
+      const img = new Image();
+      img.src = cert.image;
+    });
+
     return () => {
       document.body.style.overflow = "";
       document.body.classList.remove("lightbox-open");
@@ -407,7 +420,7 @@ const Certificates = () => {
           {certificates.map((cert, index) => (
             <Card key={cert.id} type="button" onClick={() => show(index)}>
               <Preview>
-                <img src={cert.image} alt={cert.title} />
+                <img src={cert.image} alt={cert.title} loading="eager" decoding="async" />
               </Preview>
               <CardTitle>{cert.title}</CardTitle>
               <Badge>
@@ -431,15 +444,20 @@ const Certificates = () => {
             >
               <Viewer>
                 <Frame>
-                  <img src={current.image} alt={current.title} />
+                  <img
+                    src={current.image}
+                    alt={current.title}
+                    loading="eager"
+                    decoding="async"
+                  />
                 </Frame>
-                <NavBtn $side="left" type="button" onClick={prev} aria-label="Previous certificate">
-                  <ChevronLeft />
-                </NavBtn>
-                <NavBtn $side="right" type="button" onClick={next} aria-label="Next certificate">
-                  <ChevronRight />
-                </NavBtn>
               </Viewer>
+              <NavBtn $side="left" type="button" onClick={prev} aria-label="Previous certificate">
+                <ChevronLeft />
+              </NavBtn>
+              <NavBtn $side="right" type="button" onClick={next} aria-label="Next certificate">
+                <ChevronRight />
+              </NavBtn>
               <Caption>
                 <CaptionTitle>{current.title}</CaptionTitle>
                 {current.description && <CaptionMeta>{current.description}</CaptionMeta>}

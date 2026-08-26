@@ -34,13 +34,14 @@ const Container = styled.div`
   width: 100%;
   position: relative;
   z-index: 1;
+  isolation: isolate;
 
   @media (max-width: 768px) {
-    margin-top: 60px;
+    margin-top: 32px;
   }
 
   @media (max-width: 480px) {
-    margin-top: 40px;
+    margin-top: 20px;
   }
 `;
 
@@ -60,6 +61,10 @@ const Banner = styled.section`
     height: 1px;
     background: linear-gradient(90deg, transparent, ${GOLD}, ${({ theme }) => theme.primary}, transparent);
   }
+
+  @media (max-width: 768px) {
+    padding: 12px 16px 28px;
+  }
 `;
 
 const BannerInner = styled.div`
@@ -77,6 +82,7 @@ const MedalWrap = styled.div`
   height: 168px;
   margin-bottom: 22px;
   animation: ${float} 4s ease-in-out infinite;
+  z-index: 0;
 
   &::before {
     content: "";
@@ -86,16 +92,30 @@ const MedalWrap = styled.div`
     background: radial-gradient(circle, rgba(245, 215, 110, 0.45), transparent 70%);
     animation: ${glow} 3.6s ease-in-out infinite;
     filter: blur(10px);
+    pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    width: 124px;
+    height: 124px;
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 480px) {
+    width: 104px;
+    height: 104px;
+    margin-bottom: 14px;
   }
 `;
 
 const Medal = styled.img`
   position: relative;
-  width: 168px;
-  height: 168px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 16px 32px rgba(245, 215, 110, 0.38));
   z-index: 1;
+  background: transparent;
 `;
 
 const BannerCopy = styled.div`
@@ -135,7 +155,11 @@ const Title = styled.h2`
   }
 
   @media (max-width: 768px) {
-    font-size: 32px;
+    font-size: 28px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 24px;
   }
 `;
 

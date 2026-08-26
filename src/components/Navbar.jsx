@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link as LinkR, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Bio } from "../data/constants";
@@ -28,7 +29,7 @@ const Nav = styled.div`
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 5000;
   color: ${({ theme }) => theme.text_primary};
   border-bottom: 1px solid
     ${({ theme }) =>
@@ -203,6 +204,8 @@ const MobileIcon = styled.button`
   color: ${({ theme }) => theme.text_primary};
   cursor: pointer;
   padding: 8px;
+  position: relative;
+  z-index: 5001;
 
   @media screen and (max-width: 1100px) {
     display: flex;
@@ -210,39 +213,74 @@ const MobileIcon = styled.button`
   }
 `;
 
-const MobileMenu = styled.ul`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-  list-style: none;
-  width: 100%;
-  padding: 16px 32px 28px;
-  background: ${({ theme }) => theme.card_light + 99};
-  backdrop-filter: blur(12px);
+const MobileOverlay = styled.div`
   position: fixed;
   top: 80px;
   left: 0;
   right: 0;
-  transition: all 0.35s ease;
-  transform: ${({ $isOpen }) => ($isOpen ? "translateY(0)" : "translateY(-12px)")};
-  border-radius: 0 0 20px 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  opacity: ${({ $isOpen }) => ($isOpen ? "1" : "0")};
-  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
-  z-index: 1000;
+  bottom: 0;
+  z-index: 4990;
+  background: ${({ theme }) => theme.bg};
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  isolation: isolate;
+
+  @media (max-width: 768px) {
+    top: 70px;
+  }
+`;
+
+const MobileMenu = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+  list-style: none;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 12px 24px 40px;
+  min-height: 100%;
 
   @media (max-width: 480px) {
-    padding: 12px 20px 24px;
+    padding: 8px 16px 32px;
+  }
+`;
+
+const MobileNavLink = styled.a`
+  display: block;
+  width: 100%;
+  padding: 14px 12px;
+  border-radius: 10px;
+  color: ${({ theme, $active }) => ($active ? theme.primary : theme.text_primary)};
+  font-weight: ${({ $active }) => ($active ? 600 : 500)};
+  font-size: 16px;
+  line-height: 1.3;
+  text-decoration: none;
+  background: ${({ theme, $active }) =>
+    $active ? theme.primary + "22" : "transparent"};
+  border: none;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    color: ${({ theme }) => theme.primary};
+    background: ${({ theme }) => theme.primary + "18"};
   }
 `;
 
 const MobileActions = styled.div`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 12px;
   width: 100%;
-  margin-top: 4px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid
+    ${({ theme }) =>
+      theme.bg === "#FFFFFF" ? "rgba(0, 0, 0, 0.08)" : "rgba(255, 255, 255, 0.08)"};
 `;
 
 const Navbar = ({ themeMode, toggleTheme }) => {
@@ -293,6 +331,35 @@ const Navbar = ({ themeMode, toggleTheme }) => {
       window.removeEventListener("resize", onScroll);
     };
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    document.body.classList.add("nav-open");
+    document.documentElement.classList.add("nav-open");
+
+    const onKey = (e) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    const onResize = () => {
+      if (window.innerWidth > 1100) setIsOpen(false);
+    };
+
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("resize", onResize);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.classList.remove("nav-open");
+      document.documentElement.classList.remove("nav-open");
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [isOpen]);
 
   const scrollToId = (targetId) => {
     const element = document.getElementById(targetId);
@@ -356,32 +423,41 @@ const Navbar = ({ themeMode, toggleTheme }) => {
           ))}
         </NavItems>
 
-        {isOpen && (
-          <MobileMenu $isOpen={isOpen}>
-            {NAV_LINKS.map((link) => (
-              <NavLink
-                key={link.id}
-                href={`/#${link.id}`}
-                $active={active === link.id}
-                onClick={(e) => handleNavClick(e, link)}
-              >
-                {link.label}
-              </NavLink>
-            ))}
-            <MobileActions>
-              <ThemeButton
-                type="button"
-                onClick={toggleTheme}
-                aria-label="Toggle theme"
-              >
-                {themeMode === "dark" ? <LightMode /> : <DarkMode />}
-              </ThemeButton>
-              <GithubButton href={Bio.github} target="_blank" rel="noopener noreferrer">
-                Github Profile
-              </GithubButton>
-            </MobileActions>
-          </MobileMenu>
-        )}
+        {isOpen &&
+          createPortal(
+            <MobileOverlay
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile navigation"
+            >
+              <MobileMenu>
+                {NAV_LINKS.map((link) => (
+                  <li key={link.id}>
+                    <MobileNavLink
+                      href={`/#${link.id}`}
+                      $active={active === link.id}
+                      onClick={(e) => handleNavClick(e, link)}
+                    >
+                      {link.label}
+                    </MobileNavLink>
+                  </li>
+                ))}
+                <MobileActions>
+                  <ThemeButton
+                    type="button"
+                    onClick={toggleTheme}
+                    aria-label="Toggle theme"
+                  >
+                    {themeMode === "dark" ? <LightMode /> : <DarkMode />}
+                  </ThemeButton>
+                  <GithubButton href={Bio.github} target="_blank" rel="noopener noreferrer">
+                    Github Profile
+                  </GithubButton>
+                </MobileActions>
+              </MobileMenu>
+            </MobileOverlay>,
+            document.body
+          )}
 
         <ButtonContainer>
           <ThemeButton type="button" onClick={toggleTheme} aria-label="Toggle color theme">

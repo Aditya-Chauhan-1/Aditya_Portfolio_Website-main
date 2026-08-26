@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { id: "Experience", label: "Experience" },
   { id: "Projects", label: "Projects" },
   { id: "Education", label: "Education" },
-  { id: "Achievements", label: "Achievements", path: "/achievements" },
+  { id: "Achievements", label: "Achievements" },
   { id: "Certificates", label: "Certificates" },
   { id: "Contact", label: "Contact" },
 ];
@@ -250,32 +250,49 @@ const Navbar = ({ themeMode, toggleTheme }) => {
   const [active, setActive] = useState("Skills");
   const location = useLocation();
   const navigate = useNavigate();
-  const onAchievements = location.pathname === "/achievements";
-
   useEffect(() => {
-    if (onAchievements) {
-      setActive("Achievements");
-      return undefined;
-    }
+    if (location.pathname !== "/") return undefined;
 
-    const ids = NAV_LINKS.filter((link) => !link.path).map((link) => link.id);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible?.target?.id) setActive(visible.target.id);
-      },
-      { rootMargin: "-30% 0px -55% 0px", threshold: [0.15, 0.4, 0.7] }
-    );
+    const ids = NAV_LINKS.map((link) => link.id);
+    let ticking = false;
 
-    ids.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
+    const updateActive = () => {
+      const headerOffset = window.innerWidth <= 768 ? 90 : 100;
+      let current = ids[0];
 
-    return () => observer.disconnect();
-  }, [onAchievements]);
+      ids.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (el.getBoundingClientRect().top - headerOffset <= 0) {
+          current = id;
+        }
+      });
+
+      const doc = document.documentElement;
+      if (window.innerHeight + window.scrollY >= doc.scrollHeight - 48) {
+        current = ids[ids.length - 1];
+      }
+
+      setActive((prev) => (prev === current ? prev : current));
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        updateActive();
+        ticking = false;
+      });
+    };
+
+    updateActive();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [location.pathname]);
 
   const scrollToId = (targetId) => {
     const element = document.getElementById(targetId);
@@ -288,12 +305,7 @@ const Navbar = ({ themeMode, toggleTheme }) => {
   const handleNavClick = (e, link) => {
     e.preventDefault();
     setIsOpen(false);
-
-    if (link.path) {
-      navigate(link.path);
-      window.scrollTo({ top: 0, behavior: "instant" });
-      return;
-    }
+    setActive(link.id);
 
     if (location.pathname !== "/") {
       navigate("/");
@@ -311,6 +323,7 @@ const Navbar = ({ themeMode, toggleTheme }) => {
           to="/"
           onClick={() => {
             setIsOpen(false);
+            setActive("Skills");
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         >
@@ -333,7 +346,7 @@ const Navbar = ({ themeMode, toggleTheme }) => {
           {NAV_LINKS.map((link) => (
             <li key={link.id}>
               <NavLink
-                href={link.path || `/#${link.id}`}
+                href={`/#${link.id}`}
                 $active={active === link.id}
                 onClick={(e) => handleNavClick(e, link)}
               >
@@ -348,7 +361,7 @@ const Navbar = ({ themeMode, toggleTheme }) => {
             {NAV_LINKS.map((link) => (
               <NavLink
                 key={link.id}
-                href={link.path || `/#${link.id}`}
+                href={`/#${link.id}`}
                 $active={active === link.id}
                 onClick={(e) => handleNavClick(e, link)}
               >

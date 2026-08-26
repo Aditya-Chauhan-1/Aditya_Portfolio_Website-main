@@ -1,4 +1,5 @@
-import { useState, Suspense, lazy } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { AnimatePresence } from "framer-motion";
 import Hero from "../components/sections/Hero";
@@ -6,6 +7,7 @@ import Skills from "../components/sections/Skills";
 import Education from "../components/sections/Education";
 import Experience from "../components/sections/Experience";
 import Projects from "../components/sections/Projects";
+import Achievements from "../components/sections/Achievements";
 import Certificates from "../components/sections/Certificates";
 import Contact from "../components/sections/Contact";
 import Footer from "../components/sections/Footer";
@@ -52,6 +54,19 @@ const Wrapper = styled.div`
 
 const Home = () => {
   const [openModal, setOpenModal] = useState({ state: false, project: null });
+  const location = useLocation();
+
+  useEffect(() => {
+    const id = location.hash.replace("#", "");
+    if (!id) return;
+    const timer = setTimeout(() => {
+      const element = document.getElementById(id);
+      if (!element) return;
+      const top = element.getBoundingClientRect().top + window.pageYOffset - 80;
+      window.scrollTo({ top, behavior: "smooth" });
+    }, 80);
+    return () => clearTimeout(timer);
+  }, [location.hash]);
 
   return (
     <AnimatePresence>
@@ -64,6 +79,7 @@ const Home = () => {
         <Projects setOpenModal={setOpenModal} />
         <Wrapper>
           <Education />
+          <Achievements />
           <Certificates />
           <Contact />
         </Wrapper>

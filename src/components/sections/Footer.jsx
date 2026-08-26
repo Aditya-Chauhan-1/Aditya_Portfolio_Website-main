@@ -259,7 +259,7 @@ const FOOTER_NAV = [
   { label: "Experience", section: "Experience" },
   { label: "Projects", section: "Projects" },
   { label: "Education", section: "Education" },
-  { label: "Achievements", to: "/achievements" },
+  { label: "Achievements", section: "Achievements" },
   { label: "Contact", section: "Contact" },
 ];
 
@@ -276,12 +276,6 @@ const Footer = () => {
 
   const handleNavClick = (e, item) => {
     e.preventDefault();
-
-    if (item.to) {
-      navigate(item.to);
-      window.scrollTo({ top: 0, behavior: "instant" });
-      return;
-    }
 
     if (location.pathname !== "/") {
       navigate("/");
@@ -378,7 +372,7 @@ const Footer = () => {
           {FOOTER_NAV.map((item) => (
             <NavLink
               key={item.label}
-              href={item.to || `#${item.section}`}
+              href={`#${item.section}`}
               onClick={(e) => handleNavClick(e, item)}
             >
               {item.label}

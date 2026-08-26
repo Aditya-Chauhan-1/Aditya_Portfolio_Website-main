@@ -7,6 +7,8 @@ import todoImg from "../images/projects/todo.jpg";
 import mlWorkbenchImg from "../images/projects/ml-workbench.png";
 import iftmGoldMedal from "../images/education/iftm-gold-medal.jpg";
 
+export { certificates } from "./certificates";
+
 export const Bio = {
   name: "Aditya Chauhan",
   roles: [
@@ -512,5 +514,3 @@ export const projects = [
     webapp: "https://todolistchauhan.netlify.app/",
   },
 ];
-
-export const certificates = [];

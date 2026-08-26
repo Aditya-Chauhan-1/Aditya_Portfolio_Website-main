@@ -1,686 +1,320 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled, { keyframes } from "styled-components";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Pause, PlayArrow, Download, WorkspacePremium } from "@mui/icons-material";
+import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import styled from "styled-components";
+import { ChevronLeft, ChevronRight, Close, Style } from "@mui/icons-material";
 import { certificates } from "../../data/constants";
 import SectionHeader from "../SectionHeader";
-
-const hasRealCertificates = certificates.some(
-  (cert) => cert.image && !cert.title?.startsWith("Certificate ")
-);
-
-const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
 
 const Container = styled.div`
   margin-top: 100px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
   position: relative;
   z-index: 1;
-  align-items: center;
   padding: 0 16px;
-  
+
   @media (max-width: 768px) {
     margin-top: 60px;
-    padding: 0 12px;
-  }
-  
-  @media (max-width: 480px) {
-    margin-top: 40px;
-    padding: 0 8px;
   }
 `;
 
 const Wrapper = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
   width: 100%;
   max-width: 1100px;
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Grid = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+
   @media (max-width: 960px) {
-    flex-direction: column;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 `;
 
-const CarouselContainer = styled.div`
-  width: 100%;
-  max-width: 900px;
+const Card = styled.button`
   position: relative;
-  padding: 40px 20px;
-  background: ${({ theme }) => theme.bg === "#FFFFFF" 
-    ? "rgba(255, 255, 255, 0.6)" 
-    : "rgba(17, 25, 40, 0.6)"};
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  border: 1px solid ${({ theme }) => theme.bg === "#FFFFFF" 
-    ? "rgba(0, 0, 0, 0.1)" 
-    : "rgba(255, 255, 255, 0.1)"};
-  box-shadow: 0 8px 32px ${({ theme }) => theme.primary + "20"};
-  animation: ${fadeInUp} 0.6s ease-out;
-  
-  @media (max-width: 768px) {
-    padding: 30px 15px;
-    border-radius: 16px;
+  border: none;
+  background: ${({ theme }) => (theme.bg === "#FFFFFF" ? "#fff" : theme.card)};
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: ${({ theme }) =>
+    theme.bg === "#FFFFFF"
+      ? "0 6px 18px rgba(15, 23, 42, 0.08)"
+      : "0 8px 22px rgba(0, 0, 0, 0.35)"};
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: ${({ theme }) =>
+      theme.bg === "#FFFFFF"
+        ? "0 14px 32px rgba(15, 23, 42, 0.14)"
+        : "0 14px 32px rgba(0, 0, 0, 0.5)"};
   }
-  
-  @media (max-width: 480px) {
-    padding: 20px 10px;
+
+  &:hover img {
+    transform: scale(1.12);
   }
 `;
 
-const ComingSoonCard = styled.div`
-  width: 100%;
-  max-width: 560px;
-  padding: 56px 40px;
-  text-align: center;
-  border-radius: 20px;
-  background: ${({ theme }) =>
-    theme.bg === "#FFFFFF"
-      ? "rgba(255, 255, 255, 0.8)"
-      : "rgba(17, 25, 40, 0.6)"};
-  border: 1px solid ${({ theme }) =>
-    theme.bg === "#FFFFFF"
-      ? "rgba(0, 0, 0, 0.08)"
-      : "rgba(255, 255, 255, 0.1)"};
-  box-shadow: 0 8px 32px ${({ theme }) => theme.primary + "20"};
-  animation: ${fadeInUp} 0.6s ease-out;
+const Preview = styled.div`
+  height: 228px;
+  padding: 14px 14px 8px;
+  background: ${({ theme }) => (theme.bg === "#FFFFFF" ? "#fff" : theme.card)};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+    transform: scale(1);
+    transition: transform 0.35s ease;
+  }
+`;
+
+const Badge = styled.span`
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5a524;
+  color: #fff;
+  pointer-events: none;
 
   svg {
-    font-size: 56px;
-    color: ${({ theme }) => theme.primary};
-    margin-bottom: 20px;
-  }
-
-  h3 {
-    font-size: 24px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.text_primary};
-    margin-bottom: 12px;
-  }
-
-  p {
     font-size: 16px;
-    line-height: 1.6;
-    color: ${({ theme }) => theme.text_secondary};
-  }
-
-  @media (max-width: 480px) {
-    padding: 40px 24px;
-
-    svg {
-      font-size: 44px;
-    }
-
-    h3 {
-      font-size: 20px;
-    }
-
-    p {
-      font-size: 14px;
-    }
   }
 `;
 
-const CarouselHeader = styled.div`
+const CardTitle = styled.div`
+  min-height: 62px;
+  padding: 8px 40px 16px 16px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  
-  @media (max-width: 768px) {
-    margin-bottom: 20px;
-  }
-`;
-
-const CarouselTitle = styled.div`
-  font-size: 28px;
+  justify-content: center;
+  font-size: 15px;
   font-weight: 600;
   color: ${({ theme }) => theme.text_primary};
-  
-  @media (max-width: 768px) {
-    font-size: 22px;
-  }
-  
-  @media (max-width: 480px) {
-    font-size: 20px;
-  }
+  line-height: 1.35;
 `;
 
-const CarouselSubtitle = styled.div`
-  font-size: 14px;
-  color: ${({ theme }) => theme.text_secondary};
-  margin-top: 5px;
-  
-  @media (max-width: 480px) {
-    font-size: 12px;
-  }
-`;
-
-const ControlsContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-
-const ControlButton = styled.button`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  background: ${({ theme }) => theme.bg === "#FFFFFF" 
-    ? "rgba(255, 255, 255, 0.8)" 
-    : "rgba(17, 25, 40, 0.8)"};
-  color: ${({ theme }) => theme.text_primary};
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  border: 1px solid ${({ theme }) => theme.bg === "#FFFFFF" 
-    ? "rgba(0, 0, 0, 0.1)" 
-    : "rgba(255, 255, 255, 0.1)"};
-  
-  &:hover {
-    background: ${({ theme }) => theme.primary + "20"};
-    color: ${({ theme }) => theme.primary};
-    transform: scale(1.1);
-  }
-  
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-  }
-  
-  @media (max-width: 480px) {
-    width: 35px;
-    height: 35px;
-  }
-`;
-
-const SlideContainer = styled.div`
-  position: relative;
-  width: 100%;
-  min-height: 400px;
-  overflow: hidden;
-  border-radius: 16px;
-  
-  @media (max-width: 768px) {
-    min-height: 350px;
-  }
-  
-  @media (max-width: 480px) {
-    min-height: 300px;
-  }
-`;
-
-const Slide = styled(motion.div)`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const CertificateCard = styled.div`
-  width: 100%;
-  height: 100%;
-  background: ${({ theme }) => theme.primary};
-  border-radius: 16px;
+const Overlay = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 6000;
+  background: rgba(5, 6, 16, 0.88);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  position: relative;
-  
-  @media (max-width: 768px) {
-    padding: 30px 20px;
-  }
-  
-  @media (max-width: 480px) {
-    padding: 20px 15px;
-  }
+  padding: 72px 20px 32px;
 `;
 
-const CertificateImage = styled.div`
-  width: 100%;
-  height: 100%;
-  min-height: 300px;
-  background: ${({ theme }) => theme.bg === "#FFFFFF" 
-    ? "rgba(255, 255, 255, 0.2)" 
-    : "rgba(0, 0, 0, 0.2)"};
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px dashed ${({ theme }) => theme.bg === "#FFFFFF" 
-    ? "rgba(255, 255, 255, 0.5)" 
-    : "rgba(255, 255, 255, 0.3)"};
-  position: relative;
-  cursor: ${({ clickable }) => clickable ? "pointer" : "default"};
-  transition: transform 0.3s ease;
-  
-  &:hover {
-    transform: ${({ clickable }) => clickable ? "scale(1.02)" : "none"};
-  }
-  
-  @media (max-width: 768px) {
-    min-height: 250px;
-  }
-  
-  @media (max-width: 480px) {
-    min-height: 200px;
-  }
-`;
-
-const DownloadButton = styled.button`
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
+const CloseBtn = styled.button`
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  width: 44px;
+  height: 44px;
   border: none;
-  background: ${({ theme }) => theme.bg === "#FFFFFF" 
-    ? "rgba(255, 255, 255, 0.95)" 
-    : "rgba(17, 25, 40, 0.95)"};
-  color: ${({ theme }) => theme.primary};
+  border-radius: 50%;
+  background: ${({ theme }) => theme.primary};
+  color: #fff;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  z-index: 10;
-  
-  &:hover {
-    background: ${({ theme }) => theme.primary};
-    color: ${({ theme }) => theme.bg === "#FFFFFF" ? "#FFFFFF" : "#FFFFFF"};
-    transform: scale(1.1) rotate(5deg);
-    box-shadow: 0 6px 20px ${({ theme }) => theme.primary + "60"};
-  }
-  
-  &:active {
-    transform: scale(0.95);
-  }
-  
-  @media (max-width: 480px) {
+  z-index: 6001;
+`;
+
+const Stage = styled.div`
+  position: relative;
+  width: min(860px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const NavBtn = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  ${({ $side }) => ($side === "left" ? "left: -18px;" : "right: -18px;")}
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: ${({ theme }) => theme.primary};
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  z-index: 2;
+
+  @media (max-width: 700px) {
     width: 40px;
     height: 40px;
-    top: 10px;
-    right: 10px;
+    ${({ $side }) => ($side === "left" ? "left: 6px;" : "right: 6px;")}
   }
 `;
 
-const PlaceholderText = styled.div`
-  color: ${({ theme }) => theme.bg === "#FFFFFF" 
-    ? "rgba(255, 255, 255, 0.7)" 
-    : "rgba(255, 255, 255, 0.7)"};
-  font-size: 16px;
-  text-align: center;
-  
-  @media (max-width: 480px) {
-    font-size: 14px;
-  }
-`;
-
-const CertificateTitle = styled.div`
-  font-size: 24px;
-  font-weight: 600;
-  color: ${({ theme }) => theme.bg === "#FFFFFF" ? "#FFFFFF" : "#FFFFFF"};
-  margin-top: 20px;
-  text-align: center;
-  
-  @media (max-width: 768px) {
-    font-size: 20px;
-    margin-top: 15px;
-  }
-  
-  @media (max-width: 480px) {
-    font-size: 18px;
-    margin-top: 10px;
-  }
-`;
-
-const CertificateDesc = styled.div`
-  font-size: 14px;
-  color: ${({ theme }) => theme.bg === "#FFFFFF" 
-    ? "rgba(255, 255, 255, 0.9)" 
-    : "rgba(255, 255, 255, 0.9)"};
-  margin-top: 10px;
-  text-align: center;
-  line-height: 1.6;
-  
-  @media (max-width: 480px) {
-    font-size: 12px;
-  }
-`;
-
-const ProgressBar = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 4px;
-  background: ${({ theme }) => theme.bg === "#FFFFFF" 
-    ? "rgba(255, 255, 255, 0.3)" 
-    : "rgba(255, 255, 255, 0.3)"};
+const Frame = styled.div`
   width: 100%;
-  border-radius: 0 0 16px 16px;
-  overflow: hidden;
-`;
-
-const ProgressFill = styled.div`
-  height: 100%;
-  background: ${({ theme }) => theme.bg === "#FFFFFF" ? "#FFFFFF" : "#FFFFFF"};
-  width: ${({ progress }) => progress}%;
-  transition: width 0.1s linear;
-  border-radius: 0 0 16px 16px;
-`;
-
-const PaginationDots = styled.div`
+  background: ${({ theme }) => (theme.bg === "#FFFFFF" ? "#fff" : "#12121c")};
+  border-radius: 16px;
+  padding: 18px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 10px;
-  margin-top: 30px;
-  
-  @media (max-width: 768px) {
-    margin-top: 20px;
+  justify-content: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+
+  img {
+    width: 100%;
+    max-height: 62vh;
+    object-fit: contain;
+    border-radius: 8px;
   }
 `;
 
-const Dot = styled.button`
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: none;
-  background: ${({ active, theme }) => 
-    active 
-      ? theme.primary 
-      : theme.bg === "#FFFFFF" 
-        ? "rgba(0, 0, 0, 0.2)" 
-        : "rgba(255, 255, 255, 0.2)"};
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background: ${({ theme }) => theme.primary};
-    transform: scale(1.2);
-  }
-  
-  @media (max-width: 480px) {
-    width: 10px;
-    height: 10px;
-  }
+const Caption = styled.div`
+  margin-top: 18px;
+  text-align: center;
+  color: #fff;
+  max-width: 720px;
 `;
 
-const slideVariants = {
-  enter: (direction) => ({
-    x: direction > 0 ? 1000 : -1000,
-    opacity: 0
-  }),
-  center: {
-    zIndex: 1,
-    x: 0,
-    opacity: 1
-  },
-  exit: (direction) => ({
-    zIndex: 0,
-    x: direction < 0 ? 1000 : -1000,
-    opacity: 0
-  })
-};
+const CaptionTitle = styled.h3`
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+`;
+
+const CaptionMeta = styled.p`
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 8px;
+`;
+
+const Counter = styled.p`
+  font-size: 14px;
+  opacity: 0.9;
+`;
 
 const Certificates = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [progress, setProgress] = useState(0);
-  const intervalRef = useRef(null);
-  const progressIntervalRef = useRef(null);
+  const [active, setActive] = useState(null);
+
+  const close = () => setActive(null);
+  const show = (index) => setActive(index);
+
+  const next = () => {
+    setActive((i) => (i + 1) % certificates.length);
+  };
+
+  const prev = () => {
+    setActive((i) => (i === 0 ? certificates.length - 1 : i - 1));
+  };
 
   useEffect(() => {
-    if (certificates.length === 0) return;
+    if (active === null) return undefined;
 
-    if (isPlaying) {
-      // Auto-play interval
-      intervalRef.current = setInterval(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % certificates.length);
-        setDirection(1);
-      }, 5000); // Change slide every 5 seconds
-
-      // Progress bar interval
-      progressIntervalRef.current = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 100) {
-            return 0;
-          }
-          return prev + 2; // Update every 100ms (5000ms / 50 = 2% per 100ms)
-        });
-      }, 100);
-    } else {
-      clearInterval(intervalRef.current);
-      clearInterval(progressIntervalRef.current);
-    }
-
-    return () => {
-      clearInterval(intervalRef.current);
-      clearInterval(progressIntervalRef.current);
+    const onKey = (e) => {
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowRight") next();
+      if (e.key === "ArrowLeft") prev();
     };
-  }, [isPlaying]);
 
-  const goToSlide = (index) => {
-    if (index === currentIndex) return;
-    setDirection(index > currentIndex ? 1 : -1);
-    setCurrentIndex(index);
-    setProgress(0);
-  };
+    document.body.style.overflow = "hidden";
+    document.body.classList.add("lightbox-open");
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.body.classList.remove("lightbox-open");
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [active]);
 
-  const nextSlide = () => {
-    setDirection(1);
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % certificates.length);
-    setProgress(0);
-  };
-
-  const prevSlide = () => {
-    setDirection(-1);
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? certificates.length - 1 : prevIndex - 1
-    );
-    setProgress(0);
-  };
-
-  const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
-    setProgress(0);
-  };
-
-  const downloadCertificate = async (certificate) => {
-    if (!certificate.image) {
-      alert("Certificate image not available for download.");
-      return;
-    }
-
-    try {
-      // Fetch the image
-      const response = await fetch(certificate.image);
-      const blob = await response.blob();
-      
-      // Create a temporary URL for the blob
-      const url = window.URL.createObjectURL(blob);
-      
-      // Create a temporary anchor element and trigger download
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${certificate.title || "certificate"}.${blob.type.split("/")[1] || "png"}`;
-      document.body.appendChild(link);
-      link.click();
-      
-      // Clean up
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Error downloading certificate:", error);
-      // Fallback: open in new tab
-      window.open(certificate.image, "_blank");
-    }
-  };
-
-  const handleImageClick = (certificate) => {
-    if (certificate.image) {
-      downloadCertificate(certificate);
-    }
-  };
+  const current = active !== null ? certificates[active] : null;
 
   return (
     <Container id="Certificates">
       <Wrapper>
         <SectionHeader
           title="Certificates"
-          description="Professional certifications and achievements that validate my expertise."
+          description="Verified credentials in software engineering, data, and AI — from HackerRank, Coursera, IBM, and more."
         />
 
-        {!hasRealCertificates ? (
-          <ComingSoonCard>
-            <WorkspacePremium />
-            <h3>Certificates Coming Soon</h3>
-            <p>
-              I'm currently completing additional certifications. Check back soon
-              to see my credentials and achievements.
-            </p>
-          </ComingSoonCard>
-        ) : (
-        <CarouselContainer>
-          <CarouselHeader>
-            <div>
-              <CarouselTitle>My Certificates</CarouselTitle>
-              <CarouselSubtitle>
-                The credentials that validate my expertise
-              </CarouselSubtitle>
-            </div>
-            <ControlsContainer>
-              <ControlButton onClick={togglePlayPause} aria-label={isPlaying ? "Pause" : "Play"}>
-                {isPlaying ? <Pause /> : <PlayArrow />}
-              </ControlButton>
-              <ControlButton 
-                onClick={prevSlide} 
-                disabled={certificates.length <= 1}
-                aria-label="Previous slide"
-              >
-                <ChevronLeft />
-              </ControlButton>
-              <ControlButton 
-                onClick={nextSlide} 
-                disabled={certificates.length <= 1}
-                aria-label="Next slide"
-              >
-                <ChevronRight />
-              </ControlButton>
-            </ControlsContainer>
-          </CarouselHeader>
-
-          <SlideContainer>
-            <AnimatePresence initial={false} custom={direction}>
-              <Slide
-                key={currentIndex}
-                custom={direction}
-                variants={slideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{
-                  x: { type: "spring", stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.2 }
-                }}
-              >
-                <CertificateCard>
-                  {certificates[currentIndex]?.image ? (
-                    <>
-                      <CertificateImage 
-                        clickable={true}
-                        onClick={() => handleImageClick(certificates[currentIndex])}
-                      >
-                        <img 
-                          src={certificates[currentIndex].image} 
-                          alt={certificates[currentIndex].title || "Certificate"}
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "contain",
-                            borderRadius: "12px",
-                            pointerEvents: "none"
-                          }}
-                        />
-                        <DownloadButton
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            downloadCertificate(certificates[currentIndex]);
-                          }}
-                          aria-label="Download certificate"
-                          title="Download Certificate"
-                        >
-                          <Download />
-                        </DownloadButton>
-                      </CertificateImage>
-                    </>
-                  ) : (
-                    <CertificateImage clickable={false}>
-                      <PlaceholderText>
-                        Certificate Image<br />
-                        (Add image URL in constants.js)
-                      </PlaceholderText>
-                    </CertificateImage>
-                  )}
-                  {certificates[currentIndex]?.title && (
-                    <CertificateTitle>
-                      {certificates[currentIndex].title}
-                    </CertificateTitle>
-                  )}
-                  {certificates[currentIndex]?.description && (
-                    <CertificateDesc>
-                      {certificates[currentIndex].description}
-                    </CertificateDesc>
-                  )}
-                  <ProgressBar>
-                    <ProgressFill progress={progress} />
-                  </ProgressBar>
-                </CertificateCard>
-              </Slide>
-            </AnimatePresence>
-          </SlideContainer>
-
-          <PaginationDots>
-            {certificates.map((_, index) => (
-              <Dot
-                key={index}
-                active={index === currentIndex}
-                onClick={() => goToSlide(index)}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </PaginationDots>
-        </CarouselContainer>
-        )}
+        <Grid>
+          {certificates.map((cert, index) => (
+            <Card key={cert.id} type="button" onClick={() => show(index)}>
+              <Preview>
+                <img src={cert.image} alt={cert.title} />
+              </Preview>
+              <CardTitle>{cert.title}</CardTitle>
+              <Badge>
+                <Style />
+              </Badge>
+            </Card>
+          ))}
+        </Grid>
       </Wrapper>
+
+      {current &&
+        createPortal(
+          <Overlay onClick={close}>
+            <CloseBtn type="button" onClick={close} aria-label="Close">
+              <Close />
+            </CloseBtn>
+            <Stage onClick={(e) => e.stopPropagation()}>
+              <Frame>
+                <img src={current.image} alt={current.title} />
+              </Frame>
+              <NavBtn $side="left" type="button" onClick={prev} aria-label="Previous certificate">
+                <ChevronLeft />
+              </NavBtn>
+              <NavBtn $side="right" type="button" onClick={next} aria-label="Next certificate">
+                <ChevronRight />
+              </NavBtn>
+              <Caption>
+                <CaptionTitle>{current.title}</CaptionTitle>
+                {current.description && <CaptionMeta>{current.description}</CaptionMeta>}
+                <Counter>
+                  {active + 1} / {certificates.length}
+                </Counter>
+              </Caption>
+            </Stage>
+          </Overlay>,
+          document.body
+        )}
     </Container>
   );
 };
 
 export default Certificates;
-

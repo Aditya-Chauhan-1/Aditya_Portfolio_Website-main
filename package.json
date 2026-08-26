@@ -40,7 +40,7 @@
     "start": "node scripts/start.js",
     "start:verbose": "react-app-rewired start",
     "start:raw": "react-scripts start",
-    "server": "node server.js",
+    "server": "node --use-system-ca server.js",
     "dev": "concurrently \"npm run server\" \"npm start\"",
     "build": "node scripts/build.js",
     "build:clean": "react-app-rewired build",

@@ -182,7 +182,7 @@ module.exports = async (req, res) => {
       to: [toEmail],
       subject: subject || `Contact Form Message from ${from_name || 'Portfolio Website'}`,
       html: htmlContent,
-      reply_to: from_email,
+      replyTo: from_email,
     });
 
     if (error) {

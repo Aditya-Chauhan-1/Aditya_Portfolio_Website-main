@@ -1,8 +1,12 @@
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import styled, { css, keyframes } from "styled-components";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import SchoolIcon from "@mui/icons-material/School";
 import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import DescriptionIcon from "@mui/icons-material/Description";
+import { ChevronLeft, ChevronRight, Close } from "@mui/icons-material";
 import { goldMedalHonour } from "../../data/constants";
 import goldMedal from "../../images/education/gold-medal.png";
 
@@ -304,7 +308,221 @@ const Highlight = styled.li`
   }
 `;
 
+const Docs = styled.div`
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 20px 48px;
+`;
+
+const DocsHead = styled.h3`
+  font-size: 20px;
+  color: ${({ theme }) => theme.text_primary};
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  svg {
+    color: ${GOLD};
+  }
+`;
+
+const DocsGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const DocCard = styled.button`
+  ${surface}
+  width: 100%;
+  font-family: inherit;
+  border-color: ${({ theme }) =>
+    theme.bg === "#FFFFFF" ? "rgba(0,0,0,0.08)" : "rgba(245, 215, 110, 0.22)"};
+  border-radius: 18px;
+  padding: 12px 12px 16px;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 36px rgba(133, 76, 230, 0.2);
+  }
+
+  &:hover img {
+    transform: scale(1.03);
+  }
+`;
+
+const DocFrame = styled.div`
+  height: 280px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: ${({ theme }) =>
+    theme.bg === "#FFFFFF" ? "#f6f3ea" : "#0b0d16"};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.35s ease;
+  }
+`;
+
+const DocTitle = styled.div`
+  margin-top: 12px;
+  padding: 0 6px;
+  font-size: 16px;
+  font-weight: 700;
+  color: ${({ theme }) => theme.text_primary};
+`;
+
+const DocMeta = styled.div`
+  margin-top: 4px;
+  padding: 0 6px;
+  font-size: 13px;
+  color: ${({ theme }) => theme.text_secondary};
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 6000;
+  background: rgba(5, 6, 16, 0.88);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 20px 32px;
+`;
+
+const CloseBtn = styled.button`
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: ${({ theme }) => theme.primary};
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6001;
+`;
+
+const Stage = styled.div`
+  position: relative;
+  width: min(720px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const NavBtn = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  ${({ $side }) => ($side === "left" ? "left: -18px;" : "right: -18px;")}
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: ${({ theme }) => theme.primary};
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+
+  @media (max-width: 700px) {
+    width: 40px;
+    height: 40px;
+    ${({ $side }) => ($side === "left" ? "left: 6px;" : "right: 6px;")}
+  }
+`;
+
+const Frame = styled.div`
+  width: 100%;
+  background: ${({ theme }) => (theme.bg === "#FFFFFF" ? "#fff" : "#12121c")};
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+
+  img {
+    width: 100%;
+    max-height: 72vh;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+`;
+
+const LightboxCaption = styled.div`
+  margin-top: 16px;
+  text-align: center;
+  color: #fff;
+`;
+
+const LightboxTitle = styled.h3`
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+`;
+
+const LightboxMeta = styled.p`
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.72);
+`;
+
 const Achievements = () => {
+  const [activeDoc, setActiveDoc] = useState(null);
+  const documents = goldMedalHonour.documents;
+  const current = activeDoc !== null ? documents[activeDoc] : null;
+
+  const close = () => setActiveDoc(null);
+  const next = () => setActiveDoc((i) => (i + 1) % documents.length);
+  const prev = () =>
+    setActiveDoc((i) => (i === 0 ? documents.length - 1 : i - 1));
+
+  useEffect(() => {
+    if (activeDoc === null) return undefined;
+
+    const onKey = (e) => {
+      if (e.key === "Escape") setActiveDoc(null);
+      if (e.key === "ArrowRight") {
+        setActiveDoc((i) => (i + 1) % documents.length);
+      }
+      if (e.key === "ArrowLeft") {
+        setActiveDoc((i) => (i === 0 ? documents.length - 1 : i - 1));
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    document.body.classList.add("lightbox-open");
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.body.classList.remove("lightbox-open");
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [activeDoc, documents.length]);
+
   return (
     <Container id="Achievements">
       <Banner>
@@ -373,6 +591,52 @@ const Achievements = () => {
           </Card>
         </Details>
       </Content>
+
+      <Docs>
+        <DocsHead>
+          <DescriptionIcon /> Official documents
+        </DocsHead>
+        <DocsGrid>
+          {documents.map((doc, index) => (
+            <DocCard
+              key={doc.title}
+              type="button"
+              onClick={() => setActiveDoc(index)}
+            >
+              <DocFrame>
+                <img src={doc.image} alt={doc.title} />
+              </DocFrame>
+              <DocTitle>{doc.title}</DocTitle>
+              <DocMeta>{doc.description}</DocMeta>
+            </DocCard>
+          ))}
+        </DocsGrid>
+      </Docs>
+
+      {current &&
+        createPortal(
+          <Overlay onClick={close}>
+            <CloseBtn type="button" onClick={close} aria-label="Close">
+              <Close />
+            </CloseBtn>
+            <Stage onClick={(e) => e.stopPropagation()}>
+              <Frame>
+                <img src={current.image} alt={current.title} />
+              </Frame>
+              <NavBtn $side="left" type="button" onClick={prev} aria-label="Previous document">
+                <ChevronLeft />
+              </NavBtn>
+              <NavBtn $side="right" type="button" onClick={next} aria-label="Next document">
+                <ChevronRight />
+              </NavBtn>
+              <LightboxCaption>
+                <LightboxTitle>{current.title}</LightboxTitle>
+                <LightboxMeta>{current.description}</LightboxMeta>
+              </LightboxCaption>
+            </Stage>
+          </Overlay>,
+          document.body
+        )}
     </Container>
   );
 };

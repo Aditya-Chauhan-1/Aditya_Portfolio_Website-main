@@ -6,6 +6,8 @@ import qrImg from "../images/projects/qr.jpg";
 import todoImg from "../images/projects/todo.jpg";
 import mlWorkbenchImg from "../images/projects/ml-workbench.png";
 import iftmGoldMedal from "../images/education/iftm-gold-medal.jpg";
+import iftmGoldMedalCertificate from "../images/education/iftm-gold-medal-certificate.jpg";
+import iftmDiplomaCse from "../images/education/iftm-diploma-cse.jpg";
 
 export { certificates } from "./certificates";
 
@@ -369,9 +371,9 @@ export const education = [
     school: "IFTM University, Moradabad",
     date: "Oct 2019 - Sep 2021",
     grade: "8.98 CGPA · Gold Medalist",
-    desc: "Completed Polytechnic Diploma in Computer Science and Engineering from the Department of Computer Science & Engineering. Awarded the Gold Medal at IFTM University's Sixth Convocation, 2021, for academic excellence.",
+    desc: "Completed Polytechnic Diploma in Computer Science and Engineering with First Division with Honours. Awarded the University Gold Medal at IFTM University's Sixth Convocation, 4 December 2021.",
     degree: "Polytechnic Diploma — Computer Science and Engineering",
-    achievement: "Gold Medalist — Sixth Convocation 2021",
+    achievement: "Gold Medalist — First Division with Honours · Sixth Convocation 2021",
   },
   {
     id: 2,
@@ -406,26 +408,38 @@ export const goldMedalHonour = {
   stats: [
     { value: "Gold", label: "Medal Award" },
     { value: "8.98", label: "CGPA" },
-    { value: "2021", label: "6th Convocation" },
+    { value: "Honours", label: "First Division" },
   ],
   honour: [
     { label: "University", value: "IFTM University, Moradabad" },
     { label: "Department", value: "Computer Science & Engineering" },
     { label: "Degree", value: "Polytechnic Diploma — CSE" },
     { label: "Duration", value: "Oct 2019 — Sep 2021" },
-    { label: "Convocation", value: "Sixth Convocation, 2021" },
-    { label: "Distinction", value: "Gold Medalist · 8.98 CGPA" },
+    { label: "Convocation", value: "Sixth Convocation, 4 Dec 2021" },
+    { label: "Distinction", value: "Gold Medalist · First Division with Honours" },
   ],
   story:
-    "This University Gold Medal was awarded for academic excellence across the full diploma programme — not a single exam, but consistent performance in Computer Science and Engineering. It represents discipline, strong fundamentals, and recognition by the university for finishing at the top of the department.",
+    "This University Gold Medal was awarded for academic excellence across the full diploma programme — not a single exam, but consistent performance in Computer Science and Engineering. The diploma was conferred in First Division with Honours, and the medal was presented at IFTM University’s Sixth Convocation on 4 December 2021.",
   highlights: [
-    "Ranked among the top students of the Department of Computer Science & Engineering.",
-    "Completed Polytechnic Diploma (2019–2021) with 8.98 CGPA.",
-    "Formally recognised at IFTM University’s Sixth Convocation, 2021, in the presence of university leadership.",
+    "Awarded the University Gold Medal for the Polytechnic Diploma in Computer Science & Engineering.",
+    "Passed in First Division with Honours · 8.98 CGPA (2019–2021).",
+    "Formally recognised at IFTM University’s Sixth Convocation, 4 December 2021.",
     "Built a foundation in programming, databases, networks, and software engineering that continues in professional work today.",
   ],
   career:
     "The same focus that earned this medal now drives my work as a Software Engineer, Technical Corporate Trainer, and Data Scientist — teaching clearly, building carefully, and holding a high bar for quality.",
+  documents: [
+    {
+      title: "Gold Medal Award Certificate",
+      description: "IFTM University · Sixth Convocation · 4 Dec 2021",
+      image: iftmGoldMedalCertificate,
+    },
+    {
+      title: "Diploma in Computer Science & Engineering",
+      description: "IFTM University · First Division with Honours · 23 Nov 2021",
+      image: iftmDiplomaCse,
+    },
+  ],
 };
 
 export const projects = [

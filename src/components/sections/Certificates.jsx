@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import styled from "styled-components";
 import { ChevronLeft, ChevronRight, Close, Style } from "@mui/icons-material";
 import { certificates } from "../../data/constants";
 import SectionHeader from "../SectionHeader";
+
+const ACCENT = "#f5a524";
+const DOT_WINDOW = 9;
 
 const Container = styled.div`
   margin-top: 100px;
@@ -128,29 +131,47 @@ const Overlay = styled.div`
   position: fixed;
   inset: 0;
   z-index: 6000;
-  background: rgba(5, 6, 16, 0.88);
+  background: rgba(8, 10, 14, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 72px 20px 32px;
+  overflow: hidden;
+
+  @media (max-width: 700px) {
+    padding: max(56px, env(safe-area-inset-top)) 14px max(18px, env(safe-area-inset-bottom));
+  }
 `;
 
 const CloseBtn = styled.button`
   position: fixed;
   top: 18px;
   right: 18px;
-  width: 44px;
-  height: 44px;
-  border: none;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px !important;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 50%;
-  background: ${({ theme }) => theme.primary};
+  background: rgba(18, 18, 24, 0.72);
   color: #fff;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 6001;
+
+  @media (max-width: 700px) {
+    top: max(12px, env(safe-area-inset-top));
+    right: max(12px, env(safe-area-inset-right));
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px !important;
+  }
 `;
 
 const Stage = styled.div`
@@ -159,6 +180,30 @@ const Stage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 700px) {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) 52px;
+    grid-template-areas:
+      "frame frame frame"
+      "caption caption caption"
+      "prev . next"
+      "dots dots dots";
+    column-gap: 10px;
+    row-gap: 10px;
+    align-items: center;
+    touch-action: pan-y;
+  }
+`;
+
+const Viewer = styled.div`
+  position: relative;
+  width: 100%;
+
+  @media (max-width: 700px) {
+    display: contents;
+  }
 `;
 
 const NavBtn = styled.button`
@@ -168,10 +213,12 @@ const NavBtn = styled.button`
   ${({ $side }) => ($side === "left" ? "left: -18px;" : "right: -18px;")}
   width: 48px;
   height: 48px;
+  min-width: 48px;
+  min-height: 48px !important;
   border: none;
   border-radius: 50%;
-  background: ${({ theme }) => theme.primary};
-  color: #fff;
+  background: ${ACCENT};
+  color: #111;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -179,18 +226,27 @@ const NavBtn = styled.button`
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
   z-index: 2;
 
+  svg {
+    font-size: 28px;
+  }
+
   @media (max-width: 700px) {
-    width: 40px;
-    height: 40px;
-    ${({ $side }) => ($side === "left" ? "left: 6px;" : "right: 6px;")}
+    position: static;
+    transform: none;
+    grid-area: ${({ $side }) => ($side === "left" ? "prev" : "next")};
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    min-height: 52px !important;
+    justify-self: center;
   }
 `;
 
 const Frame = styled.div`
   width: 100%;
-  background: ${({ theme }) => (theme.bg === "#FFFFFF" ? "#fff" : "#12121c")};
-  border-radius: 16px;
-  padding: 18px;
+  background: #fff;
+  border-radius: 18px;
+  padding: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -200,7 +256,19 @@ const Frame = styled.div`
     width: 100%;
     max-height: 62vh;
     object-fit: contain;
-    border-radius: 8px;
+    border-radius: 10px;
+  }
+
+  @media (max-width: 700px) {
+    grid-area: frame;
+    border-radius: 22px;
+    padding: 8px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+
+    img {
+      max-height: 52vh;
+      border-radius: 16px;
+    }
   }
 `;
 
@@ -209,18 +277,33 @@ const Caption = styled.div`
   text-align: center;
   color: #fff;
   max-width: 720px;
+
+  @media (max-width: 700px) {
+    grid-area: caption;
+    margin-top: 2px;
+    padding: 0 8px;
+  }
 `;
 
 const CaptionTitle = styled.h3`
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 4px;
+
+  @media (max-width: 700px) {
+    font-size: 16px;
+    line-height: 1.3;
+  }
 `;
 
 const CaptionMeta = styled.p`
   font-size: 13px;
   color: rgba(255, 255, 255, 0.72);
   margin-bottom: 8px;
+
+  @media (max-width: 700px) {
+    display: none;
+  }
 `;
 
 const Counter = styled.p`
@@ -228,8 +311,36 @@ const Counter = styled.p`
   opacity: 0.9;
 `;
 
+const Dots = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 14px;
+  max-width: 100%;
+
+  @media (max-width: 700px) {
+    grid-area: dots;
+    margin-top: 2px;
+  }
+`;
+
+const Dot = styled.button`
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: ${({ $active }) => ($active ? "22px" : "8px")};
+  height: 8px;
+  min-width: ${({ $active }) => ($active ? "22px" : "8px")};
+  min-height: 8px !important;
+  border-radius: 99px;
+  background: ${({ $active }) => ($active ? ACCENT : "rgba(255, 255, 255, 0.38)")};
+  transition: width 0.2s ease, background 0.2s ease;
+`;
+
 const Certificates = () => {
   const [active, setActive] = useState(null);
+  const touchStartX = useRef(null);
 
   const close = () => setActive(null);
   const show = (index) => setActive(index);
@@ -240,6 +351,18 @@ const Certificates = () => {
 
   const prev = () => {
     setActive((i) => (i === 0 ? certificates.length - 1 : i - 1));
+  };
+
+  const onTouchStart = (e) => {
+    touchStartX.current = e.changedTouches[0].clientX;
+  };
+
+  const onTouchEnd = (e) => {
+    if (touchStartX.current == null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    if (dx > 50) prev();
+    else if (dx < -50) next();
+    touchStartX.current = null;
   };
 
   useEffect(() => {
@@ -262,6 +385,15 @@ const Certificates = () => {
   }, [active]);
 
   const current = active !== null ? certificates[active] : null;
+  const total = certificates.length;
+  const dotStart =
+    active === null || total <= DOT_WINDOW
+      ? 0
+      : Math.max(0, Math.min(active - Math.floor(DOT_WINDOW / 2), total - DOT_WINDOW));
+  const dotIndices =
+    active === null
+      ? []
+      : Array.from({ length: Math.min(DOT_WINDOW, total) }, (_, i) => dotStart + i);
 
   return (
     <Container id="Certificates">
@@ -292,23 +424,40 @@ const Certificates = () => {
             <CloseBtn type="button" onClick={close} aria-label="Close">
               <Close />
             </CloseBtn>
-            <Stage onClick={(e) => e.stopPropagation()}>
-              <Frame>
-                <img src={current.image} alt={current.title} />
-              </Frame>
-              <NavBtn $side="left" type="button" onClick={prev} aria-label="Previous certificate">
-                <ChevronLeft />
-              </NavBtn>
-              <NavBtn $side="right" type="button" onClick={next} aria-label="Next certificate">
-                <ChevronRight />
-              </NavBtn>
+            <Stage
+              onClick={(e) => e.stopPropagation()}
+              onTouchStart={onTouchStart}
+              onTouchEnd={onTouchEnd}
+            >
+              <Viewer>
+                <Frame>
+                  <img src={current.image} alt={current.title} />
+                </Frame>
+                <NavBtn $side="left" type="button" onClick={prev} aria-label="Previous certificate">
+                  <ChevronLeft />
+                </NavBtn>
+                <NavBtn $side="right" type="button" onClick={next} aria-label="Next certificate">
+                  <ChevronRight />
+                </NavBtn>
+              </Viewer>
               <Caption>
                 <CaptionTitle>{current.title}</CaptionTitle>
                 {current.description && <CaptionMeta>{current.description}</CaptionMeta>}
                 <Counter>
-                  {active + 1} / {certificates.length}
+                  {active + 1} / {total}
                 </Counter>
               </Caption>
+              <Dots>
+                {dotIndices.map((index) => (
+                  <Dot
+                    key={index}
+                    type="button"
+                    $active={index === active}
+                    aria-label={`Show certificate ${index + 1}`}
+                    onClick={() => setActive(index)}
+                  />
+                ))}
+              </Dots>
             </Stage>
           </Overlay>,
           document.body

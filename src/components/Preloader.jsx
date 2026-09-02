@@ -8,7 +8,6 @@ import imgWorkspaceClose from "../images/loading-screen/aditya-workspace-close.j
 
 const DURATION_MS = 6500;
 const EXIT_MS = 700;
-const ACCENT = "#6d7bff";
 
 const SLIDES = [
   { src: imgOutdoors, position: "center 18%" },
@@ -198,6 +197,8 @@ const OrbitalSvg = styled.svg`
   height: 112%;
   overflow: visible;
   pointer-events: none;
+  filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.55))
+    drop-shadow(0 0 22px rgba(192, 38, 211, 0.35));
 `;
 
 const Orbit = styled.g`
@@ -367,16 +368,33 @@ const Preloader = ({ onComplete }) => {
             />
           </PhotoClip>
           <OrbitalSvg viewBox="0 0 100 100" aria-hidden="true">
+            <defs>
+              <linearGradient id="loaderGlow" x1="0%" y1="0%" x2="80%" y2="100%">
+                <stop offset="0%" stopColor="#7c3aed" />
+                <stop offset="55%" stopColor="#a855f7" />
+                <stop offset="100%" stopColor="#e879f9" />
+              </linearGradient>
+              <filter id="arcBlur" x="-40%" y="-40%" width="180%" height="180%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="1.4" result="soft" />
+                <feGaussianBlur in="SourceGraphic" stdDeviation="3.2" result="bloom" />
+                <feMerge>
+                  <feMergeNode in="bloom" />
+                  <feMergeNode in="soft" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
             <Orbit $duration={1.15} $reverse={false} $reduce={!motion}>
               <circle
                 cx="50"
                 cy="50"
                 r="48"
                 fill="none"
-                stroke={ACCENT}
+                stroke="url(#loaderGlow)"
                 strokeWidth="4.2"
                 strokeLinecap="round"
                 strokeDasharray="216 73"
+                filter="url(#arcBlur)"
               />
             </Orbit>
             <Orbit $duration={1.7} $reverse $reduce={!motion}>
@@ -385,10 +403,11 @@ const Preloader = ({ onComplete }) => {
                 cy="50"
                 r="43.5"
                 fill="none"
-                stroke={ACCENT}
+                stroke="url(#loaderGlow)"
                 strokeWidth="2.1"
                 strokeLinecap="round"
                 strokeDasharray="90 168"
+                filter="url(#arcBlur)"
               />
             </Orbit>
             <Orbit $duration={2.2} $reverse={false} $reduce={!motion}>
@@ -397,10 +416,11 @@ const Preloader = ({ onComplete }) => {
                 cy="50"
                 r="39.5"
                 fill="none"
-                stroke={ACCENT}
+                stroke="url(#loaderGlow)"
                 strokeWidth="1.6"
                 strokeLinecap="round"
                 strokeDasharray="58 171"
+                filter="url(#arcBlur)"
               />
             </Orbit>
             <Orbit $duration={1.45} $reverse $reduce={!motion}>
@@ -409,10 +429,11 @@ const Preloader = ({ onComplete }) => {
                 cy="50"
                 r="36"
                 fill="none"
-                stroke={ACCENT}
+                stroke="url(#loaderGlow)"
                 strokeWidth="1.4"
                 strokeLinecap="round"
                 strokeDasharray="38 166"
+                filter="url(#arcBlur)"
               />
             </Orbit>
           </OrbitalSvg>

@@ -38,11 +38,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowLoader(false), 2500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
     const unsubscribe = toast.subscribe((action) => {
       if (action.type === "add") {
         setToasts((prev) => [...prev, action.toast]);
@@ -73,7 +68,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <ErrorBoundary>
         <BrowserRouter>
-          {showLoader && <Preloader />}
+          {showLoader && <Preloader onComplete={() => setShowLoader(false)} />}
           <PageProgress />
           <a href="#Home" className="skip-link">
             Skip to content

@@ -143,6 +143,7 @@ const PROJECT_CATEGORIES = [
   { key: "all", label: "ALL" },
   { key: "web app", label: "WEB APPS" },
   { key: "machine learning", label: "MACHINE LEARNING" },
+  { key: "robotics", label: "ROBOTICS" },
   { key: "android app", label: "ANDROID APPS" },
 ];
 
@@ -165,7 +166,7 @@ const Projects = ({ setOpenModal }) => {
       <Wrapper>
         <SectionHeader
           title="Projects"
-          description="A collection of web applications and machine learning tools I've built — from client platforms to model studios."
+          description="A collection of web apps, machine learning tools, and robotics work I've built — from client platforms to embedded farm automation."
         />
         {visibleCategories.length > 1 && (
           <ToggleButtonGroup>

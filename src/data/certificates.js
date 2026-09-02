@@ -14,6 +14,7 @@ import certCiscoPcap from "../images/certificates/cisco-pcap-python.jpg";
 import certSkillLyncCfd from "../images/certificates/skill-lync-cfd.jpg";
 import certSkillLyncPlastics from "../images/certificates/skill-lync-plastics.jpg";
 import certMitBallot from "../images/certificates/mit-mission-ballot.jpg";
+import certMitIira from "../images/certificates/mit-iira-4.jpg";
 import certInnoviansIot from "../images/certificates/innovians-iot.jpg";
 import certCourseraPython from "../images/certificates/coursera-python-basics.jpg";
 import certKvchHacking from "../images/certificates/kvch-ethical-hacking.jpg";
@@ -72,6 +73,12 @@ export const certificates = [
     title: "Software Engineer",
     description: "HackerRank · 9 Feb 2026",
     image: certHrSoftware,
+  },
+  {
+    id: 32,
+    title: "IIRA 4.0 — Innovation in IoT, Robotics and Automation",
+    description: "MIT Moradabad · Dept. of Computer Science & Engineering · 15–16 Mar 2024",
+    image: certMitIira,
   },
   {
     id: 8,

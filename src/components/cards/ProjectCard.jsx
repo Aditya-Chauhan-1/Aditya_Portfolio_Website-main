@@ -54,8 +54,8 @@ const Image = styled.img`
   background-color: ${({ theme }) => theme.white};
   border-radius: 12px;
   box-shadow: 0 0 16px 2px rgba(0, 0, 0, 0.3);
-  object-fit: cover;
-  object-position: top center;
+  object-fit: ${({ $fit }) => $fit || "cover"};
+  object-position: ${({ $fit }) => ($fit === "contain" ? "center" : "top center")};
   flex-shrink: 0;
 
   @media (max-width: 480px) {
@@ -180,6 +180,7 @@ const ProjectCard = ({ project, setOpenModal, index }) => {
           src={project.image}
           alt={project.title}
           loading="lazy"
+          $fit={project.imageFit}
           onError={() => setImgError(true)}
         />
       ) : (
@@ -196,6 +197,17 @@ const ProjectCard = ({ project, setOpenModal, index }) => {
         <Description>{project.description}</Description>
       </Details>
       <ButtonRow>
+        {project.pdf && (
+          <ActionButton
+            href={project.pdf}
+            target="_blank"
+            rel="noopener noreferrer"
+            $primary={!project.webapp}
+            onClick={(e) => e.stopPropagation()}
+          >
+            Report
+          </ActionButton>
+        )}
         {project.github && (
           <ActionButton
             href={project.github}

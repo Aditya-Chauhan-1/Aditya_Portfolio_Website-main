@@ -67,9 +67,10 @@ const Desc = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  object-fit: cover;
+  object-fit: ${({ $contain }) => ($contain ? "contain" : "cover")};
+  background: ${({ $contain, theme }) => ($contain ? theme.white : "transparent")};
   border-radius: 12px;
-  margin-top: 30px;
+  margin-top: ${({ $first }) => ($first === false ? "12px" : "30px")};
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
 `;
 
@@ -201,7 +202,17 @@ const ProjectDetails = ({ openModal, setOpenModal }) => {
             }}
             onClick={close}
           />
-          {project.image && <Image src={project.image} alt={project.title} />}
+          {(project.images?.length ? project.images : project.image ? [project.image] : []).map(
+            (src, index) => (
+              <Image
+                key={`project-img-${index}`}
+                src={src}
+                alt={`${project.title} ${index + 1}`}
+                $first={index === 0}
+                $contain={String(src).includes("smart-farm")}
+              />
+            )
+          )}
           <Title>{project.title}</Title>
           {project.date && <Date>{project.date}</Date>}
           <Tags>
@@ -244,6 +255,16 @@ const ProjectDetails = ({ openModal, setOpenModal }) => {
             </>
           )}
           <ButtonGroup>
+            {project.pdf && (
+              <Button
+                href={project.pdf}
+                target="_blank"
+                rel="noopener noreferrer"
+                dull={!project.webapp ? undefined : true}
+              >
+                View Report
+              </Button>
+            )}
             {project.github && (
               <Button dull href={project.github} target="_blank" rel="noopener noreferrer">
                 View Code

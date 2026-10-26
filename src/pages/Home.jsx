@@ -18,7 +18,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 const ProjectDetails = lazy(() => import("../components/Dialog/ProjectDetails"));
 
 const Wrapper = styled.div`
-  padding-bottom: 100px;
+  padding-bottom: 64px;
   background: ${({ theme }) =>
     theme.bg === "#FFFFFF"
       ? `linear-gradient(
@@ -45,12 +45,12 @@ const Wrapper = styled.div`
   clip-path: polygon(0 0, 100% 0, 100% 100%, 30% 98%, 0 100%);
 
   @media (max-width: 768px) {
-    padding-bottom: 60px;
+    padding-bottom: 40px;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 20% 99%, 0 100%);
   }
 
   @media (max-width: 480px) {
-    padding-bottom: 40px;
+    padding-bottom: 28px;
   }
 `;
 

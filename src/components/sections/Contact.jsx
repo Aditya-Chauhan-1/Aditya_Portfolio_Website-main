@@ -10,17 +10,17 @@ const Container = styled.div`
   justify-content: center;
   z-index: 1;
   align-items: center;
-  padding: 40px 16px;
-  margin-top: 100px;
+  padding: 32px 16px;
+  margin-top: 64px;
   
   @media (max-width: 960px) {
-    padding: 20px 16px;
-    margin-top: 60px;
+    padding: 16px 16px;
+    margin-top: 40px;
   }
   
   @media (max-width: 640px) {
-    padding: 20px 12px;
-    margin-top: 40px;
+    padding: 16px 12px;
+    margin-top: 28px;
   }
 `;
 

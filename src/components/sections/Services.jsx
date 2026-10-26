@@ -23,10 +23,10 @@ const Container = styled.section`
   position: relative;
   z-index: 1;
   padding: 0 16px;
-  margin-top: 100px;
+  margin-top: 64px;
 
   @media (max-width: 768px) {
-    margin-top: 60px;
+    margin-top: 40px;
   }
 `;
 

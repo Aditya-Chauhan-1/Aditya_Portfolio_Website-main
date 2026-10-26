@@ -5,7 +5,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: ${({ $mb }) => $mb || "40px"};
+  margin-bottom: ${({ $mb }) => $mb || "32px"};
   width: 100%;
 `;
 

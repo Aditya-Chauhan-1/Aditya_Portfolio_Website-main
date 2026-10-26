@@ -30,18 +30,18 @@ const surface = css`
 `;
 
 const Container = styled.div`
-  margin-top: 100px;
+  margin-top: 64px;
   width: 100%;
   position: relative;
   z-index: 1;
   isolation: isolate;
 
   @media (max-width: 768px) {
-    margin-top: 32px;
+    margin-top: 24px;
   }
 
   @media (max-width: 480px) {
-    margin-top: 20px;
+    margin-top: 16px;
   }
 `;
 

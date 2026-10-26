@@ -22,22 +22,22 @@ const HeroContainer = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
-  padding: 100px 30px 80px;
+  padding: 64px 30px 56px;
   z-index: 1;
-  min-height: 100vh;
+  min-height: calc(100vh - 80px);
   align-items: center;
 
   @media (max-width: 960px) {
-    padding: 80px 16px 60px;
+    padding: 52px 16px 40px;
     min-height: auto;
   }
 
   @media (max-width: 640px) {
-    padding: 60px 16px 40px;
+    padding: 40px 16px 32px;
   }
   
   @media (max-width: 480px) {
-    padding: 50px 12px 30px;
+    padding: 32px 12px 24px;
   }
 
   clip-path: polygon(0 0, 100% 0, 100% 100%, 70% 95%, 0 100%);
@@ -63,7 +63,7 @@ const HeroLeftContainer = styled.div`
   order: 1;
   @media (max-width: 960px) {
     order: 2;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     display: flex;
     gap: 6px;
     flex-direction: column;
@@ -83,15 +83,15 @@ const HeroRightContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-bottom: 60px;
+    margin-bottom: 40px;
   }
 
   @media (max-width: 640px) {
-    margin-bottom: 40px;
+    margin-bottom: 32px;
   }
   
   @media (max-width: 480px) {
-    margin-bottom: 30px;
+    margin-bottom: 24px;
   }
 `;
 
@@ -501,5 +501,4 @@ const Hero = () => {
 };
 
 export default Hero;
-
 

@@ -23,15 +23,15 @@ const Container = styled.div`
   z-index: 1;
   align-items: center;
   padding: 0 16px;
-  margin-top: 100px;
+  margin-top: 64px;
   
   @media (max-width: 768px) {
-    margin-top: 60px;
+    margin-top: 40px;
     padding: 0 12px;
   }
   
   @media (max-width: 480px) {
-    margin-top: 40px;
+    margin-top: 28px;
     padding: 0 8px;
   }
 `;

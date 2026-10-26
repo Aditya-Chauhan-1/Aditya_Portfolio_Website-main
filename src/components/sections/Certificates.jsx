@@ -9,7 +9,7 @@ const ACCENT = "#f5a524";
 const DOT_WINDOW = 9;
 
 const Container = styled.div`
-  margin-top: 100px;
+  margin-top: 64px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,7 +18,7 @@ const Container = styled.div`
   padding: 0 16px;
 
   @media (max-width: 768px) {
-    margin-top: 60px;
+    margin-top: 40px;
   }
 `;
 

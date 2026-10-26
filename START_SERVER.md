@@ -51,7 +51,7 @@ npm start
 **API key not found?**
 - Make sure `.env.local` file exists with your own Resend key (never commit it):
   ```
-  REACT_APP_RESEND_API_KEY=re_your_key_here
+  RESEND_API_KEY=re_your_key_here
   REACT_APP_CONTACT_EMAIL=aadityachauhan6395@gmail.com
   REACT_APP_FROM_EMAIL=onboarding@resend.dev
   ```
@@ -71,4 +71,3 @@ npm start
 ---
 
 **That's it! Your contact form should now work perfectly!** ✨
-

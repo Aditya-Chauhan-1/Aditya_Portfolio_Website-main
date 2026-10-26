@@ -285,12 +285,8 @@ const Contact = () => {
     }
 
     try {
-      const result = await sendEmail(formData);
-      const successMessage = result?.fallback
-        ? "If your email app opened, send the message from there. Otherwise I will follow up shortly."
-        : "Message sent successfully. I will get back to you soon!";
-
-      toast.success(successMessage);
+      await sendEmail(formData);
+      toast.success("Message sent successfully. I will get back to you soon!");
       form.current.reset();
     } catch (error) {
       console.error("Error:", error);

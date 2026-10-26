@@ -24,12 +24,12 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Initialize Resend - check both REACT_APP_ and direct variable names
-const apiKey = process.env.REACT_APP_RESEND_API_KEY || process.env.RESEND_API_KEY;
+// Keep the Resend API key server-side; never expose it through a REACT_APP_ variable.
+const apiKey = process.env.RESEND_API_KEY;
 
 if (!apiKey) {
   console.error('❌ ERROR: Resend API key not found!');
-  console.error('Please add REACT_APP_RESEND_API_KEY to your .env.local file');
+  console.error('Please add RESEND_API_KEY to your .env.local file');
   process.exit(1);
 }
 
@@ -206,4 +206,3 @@ app.listen(PORT, () => {
   console.log(`🚀 Email API server running on http://localhost:${PORT}`);
   console.log(`📧 Ready to send emails to: ${process.env.REACT_APP_CONTACT_EMAIL || 'aadityachauhan6395@gmail.com'}`);
 });
-

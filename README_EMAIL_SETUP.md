@@ -11,17 +11,16 @@ This guide will help you set up the Resend API for the contact form.
 
 ## Step 2: Configure Environment Variables
 
-1. In the root directory of your project, you'll find a `.env.example` file
-2. Copy `.env.example` to `.env`:
+1. In the root directory of your project, create a `.env.local` file:
    ```bash
-   cp .env.example .env
+   copy .env.example .env.local
    ```
 
-3. Open the `.env` file and update it with your actual values:
+3. Open `.env.local` and add your actual values:
 
    ```env
-   # Resend API Configuration
-   REACT_APP_RESEND_API_KEY=re_your_actual_api_key_here
+   # Server-only Resend secret. Never use the REACT_APP_ prefix for secrets.
+   RESEND_API_KEY=re_your_actual_api_key_here
 
    # Your Email Address (where you want to receive contact form emails)
    REACT_APP_CONTACT_EMAIL=aadityachauhan6395@gmail.com
@@ -36,7 +35,7 @@ This guide will help you set up the Resend API for the contact form.
 
 1. Go to [Resend Dashboard](https://resend.com/domains)
 2. Add and verify your domain
-3. Update `REACT_APP_FROM_EMAIL` in `.env` to use your verified domain email
+3. Update `REACT_APP_FROM_EMAIL` in `.env.local` to use your verified domain email
 
 ## Step 4: Restart Your Development Server
 
@@ -48,7 +47,7 @@ npm start
 
 ## Important Notes
 
-- ⚠️ **Never commit your `.env` file to Git** - it's already in `.gitignore`
+- ⚠️ **Never commit your `.env.local` file to Git** - it's already in `.gitignore`
 - ✅ The `.env.example` file is safe to commit (it doesn't contain real keys)
 - 🔒 Keep your API key secure and don't share it publicly
 - 📧 For production, make sure to verify your domain in Resend
@@ -63,17 +62,16 @@ npm start
 ## Troubleshooting
 
 ### Email not sending?
-- Check that your API key is correct in `.env`
-- Make sure you've restarted the development server after updating `.env`
+- Check that `RESEND_API_KEY` is set in `.env.local` locally and as a server-side environment variable in Vercel
+- Restart the local server or redeploy Vercel after changing environment variables
 - Check the browser console for any error messages
 - Verify your Resend API key has the correct permissions
 
 ### API Key Issues?
 - Make sure the API key starts with `re_`
 - Ensure there are no extra spaces in the `.env` file
-- Check that the variable name is exactly `REACT_APP_RESEND_API_KEY`
+- Check that the variable name is exactly `RESEND_API_KEY`; do not use a `REACT_APP_` prefix for secrets
 
 ## Support
 
 For Resend API issues, visit: [https://resend.com/docs](https://resend.com/docs)
-

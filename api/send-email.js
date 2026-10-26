@@ -1,12 +1,27 @@
 const { Resend } = require('resend');
 
 // Initialize Resend - Vercel environment variables
-const apiKey = process.env.REACT_APP_RESEND_API_KEY || process.env.RESEND_API_KEY;
+const apiKey = process.env.RESEND_API_KEY;
 
 const resend = apiKey ? new Resend(apiKey) : null;
 
+const escapeHtml = (value = '') =>
+  String(value).replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }[character]));
+
 // Email HTML template
 const createEmailTemplate = (from_name, from_email, from_mobile, subject, message) => {
+  const safeName = escapeHtml(from_name || 'Not provided');
+  const safeEmail = escapeHtml(from_email || 'Not provided');
+  const safeMobile = escapeHtml(from_mobile);
+  const safeSubject = escapeHtml(subject);
+  const safeMessage = escapeHtml(message || 'No message provided');
+
   return `
     <!DOCTYPE html>
     <html>
@@ -74,31 +89,31 @@ const createEmailTemplate = (from_name, from_email, from_mobile, subject, messag
           <div class="content">
             <div class="field">
               <span class="label">Name:</span>
-              <div class="value">${from_name || 'Not provided'}</div>
+              <div class="value">${safeName}</div>
             </div>
             
             <div class="field">
               <span class="label">Email:</span>
-              <div class="value">${from_email || 'Not provided'}</div>
+              <div class="value">${safeEmail}</div>
             </div>
             
             ${from_mobile ? `
             <div class="field">
               <span class="label">Mobile Number:</span>
-              <div class="value">${from_mobile}</div>
+              <div class="value">${safeMobile}</div>
             </div>
             ` : ''}
             
             ${subject ? `
             <div class="field">
               <span class="label">Subject:</span>
-              <div class="value">${subject}</div>
+              <div class="value">${safeSubject}</div>
             </div>
             ` : ''}
             
             <div class="field">
               <span class="label">Message:</span>
-              <div class="message-box">${message || 'No message provided'}</div>
+              <div class="message-box">${safeMessage}</div>
             </div>
             
             <div class="footer">
@@ -147,7 +162,7 @@ module.exports = async (req, res) => {
       console.error('❌ ERROR: Resend API key not found!');
       return res.status(500).json({
         success: false,
-        message: 'Email service is not configured. Please add REACT_APP_RESEND_API_KEY to your environment variables.'
+        message: 'Email service is not configured. Please add RESEND_API_KEY to your server environment variables.'
       });
     }
 
@@ -207,4 +222,3 @@ module.exports = async (req, res) => {
     });
   }
 };
-

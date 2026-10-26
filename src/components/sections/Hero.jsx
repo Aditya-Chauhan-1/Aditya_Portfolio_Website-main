@@ -95,12 +95,12 @@ const HeroRightContainer = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h1`
   font-weight: 700;
   font-size: 50px;
   color: ${({ theme }) => theme.text_primary};
   line-height: 68px;
-  margin-bottom: 12px;
+  margin: 0 0 12px;
 
   @media (max-width: 960px) {
     text-align: center;
@@ -155,7 +155,26 @@ const Span = styled.div`
   color: ${({ theme }) => theme.primary};
 `;
 
-const SubTitle = styled.div`
+const Headline = styled.p`
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 26px;
+  color: ${({ theme }) => theme.text_secondary};
+  margin: 0 0 18px;
+  max-width: 620px;
+
+  @media (max-width: 960px) {
+    text-align: center;
+    font-size: 15px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+    line-height: 22px;
+  }
+`;
+
+const SubTitle = styled.p`
   font-size: 20px;
   line-height: 32px;
   margin-bottom: 42px;
@@ -411,6 +430,7 @@ const Hero = () => {
                 <Title>
                   Hi, I am <br /> {Bio.name}
                 </Title>
+                <Headline>{Bio.headline}</Headline>
                 <TextLoop>
                   I am a
                   <Span>
@@ -465,7 +485,7 @@ const Hero = () => {
                 <Tilt>
                   <Img 
                     src={HeroImg} 
-                    alt="Aditya Chauhan - Full Stack Developer" 
+                    alt="Aditya Chauhan (Aditya Sir) — Software Engineer, Technical Corporate Trainer, Data Scientist and AI Trainer" 
                     loading="eager"
                     width="400"
                     height="400"

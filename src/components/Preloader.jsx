@@ -108,7 +108,7 @@ const Shell = styled.div`
   pointer-events: none;
 `;
 
-const BrandTitle = styled.h1`
+const BrandTitle = styled.p`
   margin: 0 0 28px;
   display: flex;
   flex-direction: row;

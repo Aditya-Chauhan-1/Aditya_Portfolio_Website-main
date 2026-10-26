@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { AnimatePresence } from "framer-motion";
 import Hero from "../components/sections/Hero";
+import About from "../components/sections/About";
+import Services from "../components/sections/Services";
 import Skills from "../components/sections/Skills";
 import Education from "../components/sections/Education";
 import Experience from "../components/sections/Experience";
@@ -72,6 +74,8 @@ const Home = () => {
     <AnimatePresence>
       <div>
         <Hero />
+        <About />
+        <Services />
         <Wrapper>
           <Skills />
           <Experience />

@@ -62,6 +62,18 @@ const Content = styled.div`
   gap: 16px;
 `;
 
+const AboutText = styled.p`
+  font-size: 17px;
+  line-height: 1.7;
+  color: ${({ theme }) => theme.text_secondary};
+  max-width: 640px;
+
+  @media (max-width: 900px) {
+    margin: 0 auto;
+    font-size: 16px;
+  }
+`;
+
 const Roles = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -132,17 +144,25 @@ const About = () => {
   return (
     <Container id="About">
       <Wrapper>
-        <SectionHeader title="About Me" />
+        <SectionHeader
+          title="About Me"
+          description="Software Engineer, Technical Corporate Trainer, Data Scientist, and AI Trainer."
+        />
         <Grid>
           <PhotoWrap>
-            <Photo src={HeroImg} alt={`${Bio.name} portrait`} />
+            <Photo
+              src={HeroImg}
+              alt={`${Bio.name} (${Bio.brand}) — Software Engineer and AI Trainer portrait`}
+            />
           </PhotoWrap>
           <Content>
             <Roles>
               <Role>Software Engineer</Role>
-              <Role>Corporate Trainer</Role>
-              <Role>Data Science Trainer</Role>
+              <Role>Technical Corporate Trainer</Role>
+              <Role>Data Scientist</Role>
+              <Role>AI Trainer</Role>
             </Roles>
+            <AboutText>{Bio.description}</AboutText>
           </Content>
         </Grid>
         <Stats>

@@ -37,11 +37,15 @@ const Wrapper = styled.div`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   margin-top: 8px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 960px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 640px) {
     grid-template-columns: 1fr;
     gap: 16px;
   }
@@ -98,7 +102,7 @@ const Services = () => {
       <Wrapper>
         <SectionHeader
           title="Services"
-          description="How I can help — product engineering, corporate training, and Data Science mentoring for teams."
+          description="Software engineering, technical corporate training, data science, and AI training for students and teams."
         />
         <Grid>
           {services.map((service) => {

@@ -13,6 +13,7 @@ import Preloader from "./components/Preloader";
 import { ToastProvider } from "./components/Toast";
 import Home from "./pages/Home";
 import Achievements from "./pages/Achievements";
+import Seo from "./components/Seo";
 
 const Body = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -73,6 +74,7 @@ function App() {
           <a href="#Home" className="skip-link">
             Skip to content
           </a>
+          <Seo />
           <Navbar themeMode={currentTheme} toggleTheme={toggleTheme} />
           <Body>
             <StarCanvas />

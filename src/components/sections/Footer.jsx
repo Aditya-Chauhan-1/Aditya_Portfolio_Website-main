@@ -308,7 +308,7 @@ const Footer = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          Aditya Chauhan
+          Aditya Chauhan | Aditya Sir
         </Logo>
 
         <ContactInfo>

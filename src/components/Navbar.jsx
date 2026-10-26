@@ -6,6 +6,8 @@ import { Bio } from "../data/constants";
 import { MenuRounded, CloseRounded, DarkMode, LightMode } from "@mui/icons-material";
 
 const NAV_LINKS = [
+  { id: "About", label: "About" },
+  { id: "Services", label: "Services" },
   { id: "Skills", label: "Skills" },
   { id: "Experience", label: "Experience" },
   { id: "Projects", label: "Projects" },

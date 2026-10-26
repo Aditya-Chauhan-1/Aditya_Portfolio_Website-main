@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://adityachauhan.dev/sitemap.xml
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://adityasir.in/sitemap.xml
+Host: https://adityasir.in

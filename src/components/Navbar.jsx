@@ -3,7 +3,13 @@ import { createPortal } from "react-dom";
 import { Link as LinkR, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Bio } from "../data/constants";
-import { MenuRounded, CloseRounded, DarkMode, LightMode } from "@mui/icons-material";
+import {
+  MenuRounded,
+  CloseRounded,
+  DarkMode,
+  LightMode,
+  KeyboardArrowDownRounded,
+} from "@mui/icons-material";
 
 const NAV_LINKS = [
   { id: "About", label: "About" },
@@ -16,6 +22,11 @@ const NAV_LINKS = [
   { id: "Certificates", label: "Certificates" },
   { id: "Contact", label: "Contact" },
 ];
+
+const PRIMARY_NAV_LINKS = ["About", "Projects", "Contact"];
+const MORE_NAV_LINKS = NAV_LINKS.filter(
+  (link) => !PRIMARY_NAV_LINKS.includes(link.id)
+);
 
 const Nav = styled.div`
   background-color: ${({ theme }) =>
@@ -115,6 +126,21 @@ const NavItems = styled.ul`
   }
 `;
 
+const NavMore = styled.li`
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: -8px;
+    right: -8px;
+    height: 12px;
+  }
+`;
+
 const NavLink = styled.a`
   color: ${({ theme, $active }) => ($active ? theme.primary : theme.text_primary)};
   font-weight: ${({ $active }) => ($active ? 600 : 500)};
@@ -140,6 +166,65 @@ const NavLink = styled.a`
 
     &::after {
       width: 100%;
+    }
+  }
+`;
+
+const MoreButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: ${({ theme, $active }) => ($active ? theme.primary : theme.text_primary)};
+  font: inherit;
+  font-size: 15px;
+  font-weight: ${({ $active }) => ($active ? 600 : 500)};
+  cursor: pointer;
+  transition: color 0.3s ease;
+
+  &:hover,
+  &:focus-visible {
+    color: ${({ theme }) => theme.primary};
+  }
+
+  svg {
+    transition: transform 0.2s ease;
+    transform: rotate(${({ $open }) => ($open ? "180deg" : "0deg")});
+  }
+`;
+
+const MoreMenu = styled.ul`
+  position: absolute;
+  top: calc(100% + 10px);
+  right: -16px;
+  z-index: 1;
+  display: ${({ $open }) => ($open ? "flex" : "none")};
+  flex-direction: column;
+  gap: 4px;
+  width: 210px;
+  padding: 10px;
+  list-style: none;
+  border: 1px solid
+    ${({ theme }) =>
+      theme.bg === "#FFFFFF" ? "rgba(0, 0, 0, 0.1)" : "rgba(255, 255, 255, 0.12)"};
+  border-radius: 12px;
+  background: ${({ theme }) => theme.bg};
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+
+  ${NavLink} {
+    display: block;
+    padding: 9px 10px;
+    border-radius: 7px;
+    white-space: nowrap;
+
+    &::after {
+      display: none;
+    }
+
+    &:hover {
+      background: ${({ theme }) => theme.primary + "18"};
     }
   }
 `;
@@ -287,6 +372,7 @@ const MobileActions = styled.div`
 
 const Navbar = ({ themeMode, toggleTheme }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [active, setActive] = useState("Skills");
   const location = useLocation();
   const navigate = useNavigate();
@@ -374,6 +460,7 @@ const Navbar = ({ themeMode, toggleTheme }) => {
   const handleNavClick = (e, link) => {
     e.preventDefault();
     setIsOpen(false);
+    setIsMoreOpen(false);
     setActive(link.id);
 
     if (location.pathname !== "/") {
@@ -412,7 +499,7 @@ const Navbar = ({ themeMode, toggleTheme }) => {
         </MobileIcon>
 
         <NavItems role="navigation" aria-label="Main navigation">
-          {NAV_LINKS.map((link) => (
+          {NAV_LINKS.filter((link) => PRIMARY_NAV_LINKS.includes(link.id)).map((link) => (
             <li key={link.id}>
               <NavLink
                 href={`/#${link.id}`}
@@ -423,6 +510,50 @@ const Navbar = ({ themeMode, toggleTheme }) => {
               </NavLink>
             </li>
           ))}
+          <NavMore
+            onMouseEnter={() => setIsMoreOpen(true)}
+            onMouseLeave={() => setIsMoreOpen(false)}
+            onFocus={() => setIsMoreOpen(true)}
+            onBlur={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget)) {
+                setIsMoreOpen(false);
+              }
+            }}
+            onKeyDown={(event) => {
+              if (event.key === "Escape") {
+                setIsMoreOpen(false);
+                event.currentTarget.querySelector("button")?.focus();
+              }
+            }}
+          >
+            <MoreButton
+              type="button"
+              $active={MORE_NAV_LINKS.some((link) => link.id === active)}
+              $open={isMoreOpen}
+              aria-expanded={isMoreOpen}
+              aria-controls="desktop-more-menu"
+              onClick={() => setIsMoreOpen((open) => !open)}
+            >
+              More <KeyboardArrowDownRounded fontSize="small" />
+            </MoreButton>
+            <MoreMenu
+              id="desktop-more-menu"
+              aria-label="More sections"
+              $open={isMoreOpen}
+            >
+              {MORE_NAV_LINKS.map((link) => (
+                <li key={link.id}>
+                  <NavLink
+                    href={`/#${link.id}`}
+                    $active={active === link.id}
+                    onClick={(event) => handleNavClick(event, link)}
+                  >
+                    {link.label}
+                  </NavLink>
+                </li>
+              ))}
+            </MoreMenu>
+          </NavMore>
         </NavItems>
 
         {isOpen &&

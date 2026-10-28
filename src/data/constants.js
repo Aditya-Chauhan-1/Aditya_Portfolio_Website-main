@@ -16,8 +16,6 @@ export { certificates } from "./certificates";
 export const Bio = {
   name: "Aditya Chauhan",
   brand: "Aditya Sir",
-  headline:
-    "Software Engineer · Technical Corporate Trainer · Data Scientist · AI Trainer",
   roles: [
     "Software Engineer",
     "Technical Corporate Trainer",
@@ -27,7 +25,9 @@ export const Bio = {
     "Backend Engineer",
   ],
   description:
-    "I am Aditya Chauhan — a Software Engineer, Technical Corporate Trainer, Data Scientist, and AI Trainer. I build scalable MERN and Generative AI applications for international clients, and I train students and working professionals in full-stack development, data science, and AI.",
+    "I’m Aditya Chauhan, a Software Engineer, Technical Corporate Trainer, Data Scientist, and AI Trainer. I work with international clients and mentor students and professionals in Full-Stack Development, Data Science, and AI.",
+  aboutDescription:
+    "I’m Aditya Chauhan, a Software Engineer, Technical Corporate Trainer, Data Scientist, and AI Trainer with experience working with international clients. I specialize in Full-Stack Development, Data Science, and Artificial Intelligence, empowering students and working professionals through practical, industry-oriented training. I’m also passionate about mentoring aspiring professionals, guiding them in building real-world projects, strengthening their technical skills, and preparing for successful careers in the technology industry.",
   email: "aadityachauhan6395@gmail.com",
   location: "Amroha, Uttar Pradesh, India",
   availability: "Open to opportunities",
@@ -40,8 +40,8 @@ export const Bio = {
 };
 
 export const stats = [
-  { value: "2+", label: "Years Experience" },
-  { value: "6+", label: "Live Projects" },
+  { value: "2.5+", label: "Years Experience" },
+  { value: "20+", label: "Live Projects" },
   { value: "4", label: "Companies" },
   { value: "MERN", label: "Core Stack" },
 ];

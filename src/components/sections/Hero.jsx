@@ -124,54 +124,38 @@ const TextLoop = styled.div`
   font-weight: 600;
   font-size: 32px;
   display: flex;
+  align-items: baseline;
   gap: 12px;
   color: ${({ theme }) => theme.text_primary};
   line-height: 68px;
   margin-bottom: 16px;
-  flex-wrap: wrap;
+  white-space: nowrap;
 
   @media (max-width: 960px) {
     text-align: center;
+    align-items: center;
     justify-content: center;
-    font-size: 22px;
-    line-height: 48px;
+    font-size: 20px;
+    line-height: 40px;
     margin-bottom: 16px;
   }
   
   @media (max-width: 640px) {
-    font-size: 18px;
-    line-height: 32px;
-    gap: 8px;
+    font-size: 15px;
+    line-height: 28px;
   }
   
   @media (max-width: 480px) {
-    font-size: 16px;
-    line-height: 28px;
+    font-size: 13px;
+    line-height: 24px;
+    gap: 8px;
   }
 `;
 
 const Span = styled.div`
   cursor: pointer;
   color: ${({ theme }) => theme.primary};
-`;
-
-const Headline = styled.p`
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 26px;
-  color: ${({ theme }) => theme.text_secondary};
-  margin: 0 0 18px;
-  max-width: 620px;
-
-  @media (max-width: 960px) {
-    text-align: center;
-    font-size: 15px;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 13px;
-    line-height: 22px;
-  }
+  white-space: nowrap;
 `;
 
 const SubTitle = styled.p`
@@ -430,7 +414,6 @@ const Hero = () => {
                 <Title>
                   Hi, I am <br /> {Bio.name}
                 </Title>
-                <Headline>{Bio.headline}</Headline>
                 <TextLoop>
                   I am a
                   <Span>
@@ -501,4 +484,3 @@ const Hero = () => {
 };
 
 export default Hero;
-

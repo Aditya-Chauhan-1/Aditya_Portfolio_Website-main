@@ -162,7 +162,7 @@ const About = () => {
               <Role>Data Scientist</Role>
               <Role>AI Trainer</Role>
             </Roles>
-            <AboutText>{Bio.description}</AboutText>
+            <AboutText>{Bio.aboutDescription}</AboutText>
           </Content>
         </Grid>
         <Stats>

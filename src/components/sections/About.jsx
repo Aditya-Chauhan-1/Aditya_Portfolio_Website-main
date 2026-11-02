@@ -146,7 +146,7 @@ const About = () => {
       <Wrapper>
         <SectionHeader
           title="About Me"
-          description="Software Engineer, Technical Corporate Trainer, Data Scientist, and AI Trainer."
+          description="Software Developer, MERN Stack Developer, Technical Trainer, and AI & Data Science Trainer."
         />
         <Grid>
           <PhotoWrap>
@@ -157,10 +157,10 @@ const About = () => {
           </PhotoWrap>
           <Content>
             <Roles>
-              <Role>Software Engineer</Role>
-              <Role>Technical Corporate Trainer</Role>
-              <Role>Data Scientist</Role>
-              <Role>AI Trainer</Role>
+              <Role>Software Developer</Role>
+              <Role>MERN Stack Developer</Role>
+              <Role>Technical Trainer</Role>
+              <Role>AI &amp; Data Science Trainer</Role>
             </Roles>
             <AboutText>{Bio.aboutDescription}</AboutText>
           </Content>

@@ -338,7 +338,7 @@ const Preloader = ({ onComplete }) => {
       onClick={finish}
       role="dialog"
       aria-modal="true"
-      aria-label="Loading Aditya Chauhan portfolio"
+      aria-label="Loading Aditya Chauhan website"
       aria-busy={!exiting}
     >
       <Ambient />

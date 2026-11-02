@@ -2,26 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://adityasir.in/</loc>
-    <lastmod>2026-10-26</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <loc>https://www.adityasir.in/</loc>
+    <lastmod>2026-11-03</lastmod>
     <image:image>
-      <image:loc>https://adityasir.in/og-image.jpg</image:loc>
-      <image:title>Aditya Chauhan | Aditya Sir</image:title>
-      <image:caption>Aditya Chauhan — Software Engineer, Technical Corporate Trainer, Data Scientist and AI Trainer</image:caption>
+      <image:loc>https://www.adityasir.in/og-image.jpg</image:loc>
+      <image:title>Aditya Chauhan</image:title>
+      <image:caption>Aditya Chauhan — Software Developer and Technical Trainer</image:caption>
     </image:image>
     <image:image>
-      <image:loc>https://adityasir.in/seo/aditya-chauhan.jpg</image:loc>
+      <image:loc>https://www.adityasir.in/seo/aditya-chauhan.jpg</image:loc>
       <image:title>Aditya Chauhan professional portrait</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://adityasir.in/seo/aditya-chauhan-gold-medal.jpg</image:loc>
+      <image:loc>https://www.adityasir.in/seo/aditya-chauhan-gold-medal.jpg</image:loc>
       <image:title>Aditya Chauhan IFTM University Gold Medal</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://adityasir.in/seo/aditya-chauhan-trainer.jpg</image:loc>
+      <image:loc>https://www.adityasir.in/seo/aditya-chauhan-trainer.jpg</image:loc>
       <image:title>Aditya Chauhan Technical Corporate Trainer</image:title>
     </image:image>
+  </url>
+  <url>
+    <loc>https://www.adityasir.in/achievements</loc>
   </url>
 </urlset>

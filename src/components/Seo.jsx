@@ -22,6 +22,7 @@ const Seo = () => {
     setMeta('meta[name="twitter:description"]', "content", page.description);
     setMeta('meta[property="og:image"]', "content", seo.image);
     setMeta('meta[name="twitter:image"]', "content", seo.image);
+    setMeta('meta[name="twitter:url"]', "content", page.canonical);
   }, [pathname]);
 
   return null;

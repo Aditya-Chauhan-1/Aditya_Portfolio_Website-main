@@ -308,7 +308,7 @@ const Footer = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          Aditya Chauhan | Aditya Sir
+          Aditya Chauhan
         </Logo>
 
         <ContactInfo>
@@ -411,6 +411,8 @@ const Footer = () => {
             href={Bio.linkedin} 
             target="_blank" 
             rel="noopener noreferrer"
+            aria-label="LinkedIn profile"
+            title="LinkedIn profile"
             whileHover={{ scale: 1.1, rotate: 5 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -420,6 +422,8 @@ const Footer = () => {
             href={Bio.insta} 
             target="_blank" 
             rel="noopener noreferrer"
+            aria-label="Instagram profile"
+            title="Instagram profile"
             whileHover={{ scale: 1.1, rotate: 5 }}
             whileTap={{ scale: 0.95 }}
           >

@@ -156,7 +156,7 @@ app.post('/api/send-email', async (req, res) => {
               </div>
               
               <div class="footer">
-                <p>This email was sent from your portfolio contact form.</p>
+                <p>This email was sent from your website contact form.</p>
                 <p>Sent at: ${new Date().toLocaleString()}</p>
               </div>
             </div>
@@ -169,7 +169,7 @@ app.post('/api/send-email', async (req, res) => {
     const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: [toEmail],
-      subject: subject || `Contact Form Message from ${from_name || 'Portfolio Website'}`,
+      subject: subject || `Contact Form Message from ${from_name || 'Website'}`,
       html: htmlContent,
       replyTo: from_email,
     });

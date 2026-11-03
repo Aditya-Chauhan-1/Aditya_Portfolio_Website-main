@@ -6,7 +6,7 @@ export const seo = {
   title:
     "Aditya Chauhan | Aditya Sir — Software Engineer, Corporate Trainer, Data Scientist & AI Trainer",
   description:
-    "Aditya Chauhan (Aditya Sir) is a Software Engineer, Technical Corporate Trainer, Data Scientist, and AI Trainer. Portfolio of MERN, Data Science, and Generative AI projects, corporate training, and contact.",
+    "Aditya Chauhan (Aditya Sir) is a Software Engineer, Technical Corporate Trainer, Data Scientist, and AI Trainer. Explore MERN, Data Science, and Generative AI projects, corporate training, and contact.",
   jobTitle: "Software Engineer, Technical Corporate Trainer & Data Scientist",
   keywords:
     "Aditya Chauhan, Aditya Sir, Aditya Chauhan Software Engineer, Aditya Sir Trainer, Technical Corporate Trainer, Data Scientist, AI Trainer, Generative AI Trainer, Full Stack Developer, MERN Stack, React, Node.js, Python, Corporate IT Trainer, Amroha, India",

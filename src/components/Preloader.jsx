@@ -338,7 +338,7 @@ const Preloader = ({ onComplete }) => {
       onClick={finish}
       role="dialog"
       aria-modal="true"
-      aria-label="Loading Aditya Chauhan website"
+      aria-label="Loading Aditya Chauhan Sir website"
       aria-busy={!exiting}
     >
       <Ambient />
@@ -358,7 +358,7 @@ const Preloader = ({ onComplete }) => {
             <Artwork
               ref={imgRef}
               src={slide.src}
-              alt="Aditya Chauhan"
+              alt="Aditya Chauhan Sir"
               draggable="false"
               $position={slide.position}
               $ready={ready}

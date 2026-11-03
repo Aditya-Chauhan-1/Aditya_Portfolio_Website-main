@@ -152,7 +152,7 @@ const About = () => {
           <PhotoWrap>
             <Photo
               src={HeroImg}
-              alt={`${Bio.name} (${Bio.brand}) — Software Engineer and AI Trainer portrait`}
+              alt={`${Bio.name} — Software Engineer and AI Trainer portrait`}
             />
           </PhotoWrap>
           <Content>

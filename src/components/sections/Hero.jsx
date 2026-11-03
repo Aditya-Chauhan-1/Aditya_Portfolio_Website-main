@@ -468,7 +468,7 @@ const Hero = () => {
                 <Tilt>
                   <Img 
                     src={HeroImg} 
-                    alt="Aditya Chauhan (Aditya Sir) — Software Engineer, Technical Corporate Trainer, Data Scientist and AI Trainer" 
+                    alt="Aditya Chauhan Sir — Software Engineer, Technical Corporate Trainer, Data Scientist and AI Trainer"
                     loading="eager"
                     width="400"
                     height="400"

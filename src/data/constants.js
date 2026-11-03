@@ -14,8 +14,8 @@ import iftmDiplomaCse from "../images/education/iftm-diploma-cse.jpg";
 export { certificates } from "./certificates";
 
 export const Bio = {
-  name: "Aditya Chauhan",
-  brand: "Aditya Sir",
+  name: "Aditya Chauhan Sir",
+  brand: "Aditya Chauhan Sir",
   roles: [
     "Software Engineer",
     "Technical Corporate Trainer",

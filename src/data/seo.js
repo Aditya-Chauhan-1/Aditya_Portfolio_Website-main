@@ -1,15 +1,13 @@
 export const SITE_URL = "https://adityasir.in";
 
 export const seo = {
-  name: "Aditya Chauhan",
-  alternateName: "Aditya Sir",
-  title:
-    "Aditya Chauhan | Aditya Sir — Software Engineer, Corporate Trainer, Data Scientist & AI Trainer",
+  name: "Aditya Chauhan Sir",
+  title: "Aditya Sir",
   description:
-    "Aditya Chauhan (Aditya Sir) is a Software Engineer, Technical Corporate Trainer, Data Scientist, and AI Trainer. Explore MERN, Data Science, and Generative AI projects, corporate training, and contact.",
+    "Aditya Chauhan Sir is a Software Engineer, Technical Corporate Trainer, Data Scientist, and AI Trainer. Explore MERN, Data Science, and Generative AI projects, corporate training, and contact.",
   jobTitle: "Software Engineer, Technical Corporate Trainer & Data Scientist",
   keywords:
-    "Aditya Chauhan, Aditya Sir, Aditya Chauhan Software Engineer, Aditya Sir Trainer, Technical Corporate Trainer, Data Scientist, AI Trainer, Generative AI Trainer, Full Stack Developer, MERN Stack, React, Node.js, Python, Corporate IT Trainer, Amroha, India",
+    "Aditya Chauhan Sir, Software Engineer, Technical Corporate Trainer, Data Scientist, AI Trainer, Generative AI Trainer, Full Stack Developer, MERN Stack, React, Node.js, Python, Corporate IT Trainer, Amroha, India",
   image: `${SITE_URL}/og-image.jpg`,
   photo: `${SITE_URL}/seo/aditya-chauhan.jpg`,
   email: "aadityachauhan6395@gmail.com",
@@ -29,10 +27,9 @@ export const pageSeo = {
     canonical: `${SITE_URL}/`,
   },
   "/achievements": {
-    title:
-      "Achievements | Aditya Chauhan — Gold Medalist, Software Engineer & Trainer",
+    title: "Achievements | Aditya Chauhan Sir",
     description:
-      "Academic and professional achievements of Aditya Chauhan (Aditya Sir), including the IFTM University Gold Medal, software engineering work, and corporate training.",
+      "Academic and professional achievements of Aditya Chauhan Sir, including the IFTM University Gold Medal, software engineering work, and corporate training.",
     canonical: `${SITE_URL}/achievements`,
   },
 };

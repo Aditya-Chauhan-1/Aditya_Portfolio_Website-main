@@ -261,19 +261,6 @@ const GithubButton = styled.a`
   }
 `;
 
-const ProfileLink = styled.a`
-  color: ${({ theme }) => theme.text_primary};
-  font-size: 13px;
-  font-weight: 500;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: color 0.3s ease;
-
-  &:hover {
-    color: ${({ theme }) => theme.primary};
-  }
-`;
-
 const ThemeButton = styled.button`
   width: 40px;
   height: 40px;
@@ -597,22 +584,8 @@ const Navbar = ({ themeMode, toggleTheme }) => {
                     {themeMode === "dark" ? <LightMode /> : <DarkMode />}
                   </ThemeButton>
                   <GithubButton href={Bio.github} target="_blank" rel="noopener noreferrer">
-                    GitHub profile
+                    Github Profile
                   </GithubButton>
-                  <ProfileLink
-                    href={Bio.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    LinkedIn profile
-                  </ProfileLink>
-                  <ProfileLink
-                    href={Bio.insta}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Instagram profile
-                  </ProfileLink>
                 </MobileActions>
               </MobileMenu>
             </MobileOverlay>,
@@ -624,22 +597,8 @@ const Navbar = ({ themeMode, toggleTheme }) => {
             {themeMode === "dark" ? <LightMode /> : <DarkMode />}
           </ThemeButton>
           <GithubButton href={Bio.github} target="_blank" rel="noopener noreferrer">
-            GitHub profile
+            Github Profile
           </GithubButton>
-          <ProfileLink
-            href={Bio.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LinkedIn profile
-          </ProfileLink>
-          <ProfileLink
-            href={Bio.insta}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Instagram profile
-          </ProfileLink>
         </ButtonContainer>
       </NavbarContainer>
     </Nav>

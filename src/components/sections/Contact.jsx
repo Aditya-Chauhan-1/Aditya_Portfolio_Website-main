@@ -242,21 +242,6 @@ const FormWrapper = styled.div`
   max-width: 600px;
 `;
 
-const SocialProfiles = styled.nav`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-  margin: 20px 0;
-`;
-
-const SocialProfileLink = styled.a`
-  color: ${({ theme }) => theme.primary};
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-`;
-
 const Contact = () => {
   const form = useRef();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -321,31 +306,8 @@ const Contact = () => {
       <Wrapper>
         <SectionHeader
           title="Contact"
-          description="Contact Aditya Chauhan for collaborations, software development, or technical training."
+          description="Feel free to reach out for collaborations, opportunities, or just a friendly hello!"
         />
-        <SocialProfiles aria-label="Aditya Chauhan social profiles">
-          <SocialProfileLink
-            href="https://www.linkedin.com/in/aditya63/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LinkedIn profile
-          </SocialProfileLink>
-          <SocialProfileLink
-            href="https://github.com/Aditya-Chauhan-1"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub profile
-          </SocialProfileLink>
-          <SocialProfileLink
-            href="https://www.instagram.com/shyam_diwana6395"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Instagram profile
-          </SocialProfileLink>
-        </SocialProfiles>
         <ContentRow>
           <EarthWrapper>
             <EarthCanvas />

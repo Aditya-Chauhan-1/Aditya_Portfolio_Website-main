@@ -1,13 +1,15 @@
-export const SITE_URL = "https://www.adityasir.in";
+export const SITE_URL = "https://adityasir.in";
 
 export const seo = {
   name: "Aditya Chauhan",
   alternateName: "Aditya Sir",
-  title: "Aditya Chauhan | Software Developer & Technical Trainer",
+  title:
+    "Aditya Chauhan | Aditya Sir — Software Engineer, Corporate Trainer, Data Scientist & AI Trainer",
   description:
-    "Aditya Chauhan (Aditya Sir) is a MERN stack software developer, technical trainer, and AI & data science trainer. Explore his projects and experience.",
-  jobTitle:
-    "Software Developer, MERN Stack Developer, Technical Trainer, AI and Data Science Trainer",
+    "Aditya Chauhan (Aditya Sir) is a Software Engineer, Technical Corporate Trainer, Data Scientist, and AI Trainer. Portfolio of MERN, Data Science, and Generative AI projects, corporate training, and contact.",
+  jobTitle: "Software Engineer, Technical Corporate Trainer & Data Scientist",
+  keywords:
+    "Aditya Chauhan, Aditya Sir, Aditya Chauhan Software Engineer, Aditya Sir Trainer, Technical Corporate Trainer, Data Scientist, AI Trainer, Generative AI Trainer, Full Stack Developer, MERN Stack, React, Node.js, Python, Corporate IT Trainer, Amroha, India",
   image: `${SITE_URL}/og-image.jpg`,
   photo: `${SITE_URL}/seo/aditya-chauhan.jpg`,
   email: "aadityachauhan6395@gmail.com",
@@ -27,9 +29,10 @@ export const pageSeo = {
     canonical: `${SITE_URL}/`,
   },
   "/achievements": {
-    title: "Achievements | Aditya Chauhan",
+    title:
+      "Achievements | Aditya Chauhan — Gold Medalist, Software Engineer & Trainer",
     description:
-      "Explore the academic achievements and honors of Aditya Chauhan, including his IFTM University Gold Medal.",
+      "Academic and professional achievements of Aditya Chauhan (Aditya Sir), including the IFTM University Gold Medal, software engineering work, and corporate training.",
     canonical: `${SITE_URL}/achievements`,
   },
 };

@@ -2,7 +2,7 @@ export const SITE_URL = "https://adityasir.in";
 
 export const seo = {
   name: "Aditya Chauhan Sir",
-  title: "Aditya Sir",
+  title: "Aditya Sir | Software Engineer & Data Science Specialist",
   description:
     "Aditya Chauhan Sir is a Software Engineer, Technical Corporate Trainer, Data Scientist, and AI Trainer. Explore MERN, Data Science, and Generative AI projects, corporate training, and contact.",
   jobTitle: "Software Engineer, Technical Corporate Trainer & Data Scientist",

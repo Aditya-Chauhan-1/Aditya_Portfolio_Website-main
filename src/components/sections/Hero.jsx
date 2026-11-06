@@ -412,7 +412,7 @@ const Hero = () => {
               <motion.div {...headTextAnimation}>
                 <Badge>{Bio.availability}</Badge>
                 <Title>
-                  Hi, I am <br /> {Bio.name}
+                  Aditya Chauhan Sir
                 </Title>
                 <TextLoop>
                   I am a

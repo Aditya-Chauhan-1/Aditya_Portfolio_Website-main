@@ -1,13 +1,13 @@
-# 🚀 Quick Setup Instructions
+# Quick Setup Instructions
 
-## ✅ Step 1: Get Your Resend API Key
+## 1. Get Your Resend API Key
 
 1. Visit: https://resend.com/api-keys
 2. Sign up/Login to Resend
 3. Create a new API key
 4. Copy the API key (starts with `re_`)
 
-## ✅ Step 2: Update .env.local File
+## 2. Configure `.env.local`
 
 Open or create `.env.local` in the project root and add:
 
@@ -21,7 +21,7 @@ With your actual API key:
 RESEND_API_KEY=re_your_actual_api_key_from_resend
 ```
 
-## ✅ Step 3: Verify Email Settings
+## 3. Verify Email Settings
 
 The `.env.local` file should look like this:
 
@@ -30,20 +30,24 @@ The `.env.local` file should look like this:
 RESEND_API_KEY=re_your_actual_api_key_here
 
 # Your Email Address (where you want to receive emails)
-REACT_APP_CONTACT_EMAIL=aadityachauhan6395@gmail.com
+CONTACT_EMAIL=aadityachauhan6395@gmail.com
 
 # From Email (use onboarding@resend.dev for testing)
-REACT_APP_FROM_EMAIL=onboarding@resend.dev
+FROM_EMAIL=onboarding@resend.dev
 ```
 
-## ✅ Step 4: Restart Development Server
+## 4. Start the Next.js app
 
-**IMPORTANT:** After updating `.env.local`, you MUST restart your server:
+After updating `.env.local`, start or restart the app:
 
-1. Stop the current server (Ctrl+C)
-2. Run: `npm start`
+```bash
+npm install
+npm run dev
+```
 
-## ✅ Step 5: Test the Contact Form
+Open `http://localhost:3000`. The website and contact API run in the same Next.js server.
+
+## 5. Test the Contact Form
 
 1. Fill out the contact form on your website
 2. Submit it

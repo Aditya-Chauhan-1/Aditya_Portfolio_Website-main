@@ -154,6 +154,22 @@ const ButtonGroup = styled.div`
   gap: 12px;
 `;
 
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: ${({ theme }) => theme.text_primary};
+  cursor: pointer;
+`;
+
 const Button = styled.a`
   width: 100%;
   text-align: center;
@@ -163,8 +179,8 @@ const Button = styled.a`
   padding: 12px 16px;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.primary};
-  ${({ dull, theme }) =>
-    dull &&
+  ${({ $dull, theme }) =>
+    $dull &&
     `
         background-color: ${theme.bgLight};
         color: ${theme.text_secondary};
@@ -191,17 +207,16 @@ const ProjectDetails = ({ openModal, setOpenModal }) => {
 
   return (
     <Modal open={true} onClose={close}>
-      <Container onClick={close}>
+      <Container
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="project-details-title"
+        onClick={close}
+      >
         <Wrapper onClick={(e) => e.stopPropagation()}>
-          <CloseRounded
-            style={{
-              position: "absolute",
-              top: "10px",
-              right: "20px",
-              cursor: "pointer",
-            }}
-            onClick={close}
-          />
+          <CloseButton type="button" aria-label="Close project details" onClick={close}>
+            <CloseRounded />
+          </CloseButton>
           {(project.images?.length ? project.images : project.image ? [project.image] : []).map(
             (src, index) => (
               <Image
@@ -213,7 +228,7 @@ const ProjectDetails = ({ openModal, setOpenModal }) => {
               />
             )
           )}
-          <Title>{project.title}</Title>
+          <Title id="project-details-title">{project.title}</Title>
           {project.date && <Date>{project.date}</Date>}
           <Tags>
             {project.tags?.map((tag, index) => (
@@ -260,13 +275,13 @@ const ProjectDetails = ({ openModal, setOpenModal }) => {
                 href={project.pdf}
                 target="_blank"
                 rel="noopener noreferrer"
-                dull={!project.webapp ? undefined : true}
+                $dull={!project.webapp ? undefined : true}
               >
                 View Report
               </Button>
             )}
             {project.github && (
-              <Button dull href={project.github} target="_blank" rel="noopener noreferrer">
+              <Button $dull href={project.github} target="_blank" rel="noopener noreferrer">
                 View Code
               </Button>
             )}

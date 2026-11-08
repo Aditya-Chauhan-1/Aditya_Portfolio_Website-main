@@ -1,32 +1,34 @@
 # Aditya Chauhan Portfolio
-Welcome to my portfolio! This project showcases my skills, projects, and experiences as a web developer.
 
+The portfolio is built with Next.js App Router. The home page contains the portfolio sections, and `/achievements` redirects to the achievements section on the home page.
 
+## Requirements
 
+- Node.js 18.18 or newer
+- npm
 
-## Table of Contents
-- [Introduction](#introduction)
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+## Run locally
 
-## Introduction
-My Portfolio is a React.js application that serves as an online portfolio to showcase my work, skills, and achievements. It provides an overview of my background, displays my projects, and offers a way to contact me.
+```bash
+npm install
+npm run dev
+```
 
-## Features
-- About Me: An overview of my background, skills, and experiences.
-- Projects: A collection of my notable projects with descriptions, screenshots, and links.
-- Skills: A list of my technical skills and proficiencies.
-- Resume: A link to download my resume.
-- Contact: A form to send me messages or inquiries.
+Open [http://localhost:3000](http://localhost:3000). Create a `.env.local` file in the project root to enable the contact form:
 
-## Technologies Used
-- React.js: A JavaScript library for building user interfaces.
-- HTML5 & CSS3: Markup and styling languages for building web pages.
-- JavaScript: A programming language for adding interactivity to web applications.
-- Style-Components: A CSS framework for creating responsive and mobile-first designs.
-- Git: A version control system for tracking changes and collaborating on projects.
-- GitHub Pages: A platform for hosting and deploying web applications.
+```env
+RESEND_API_KEY=your_resend_api_key
+CONTACT_EMAIL=your_inbox@example.com
+FROM_EMAIL=onboarding@resend.dev
+```
+
+`RESEND_API_KEY` is server-only and must not use a `NEXT_PUBLIC_` prefix. See [README_EMAIL_SETUP.md](./README_EMAIL_SETUP.md) for email setup details.
+
+## Production
+
+```bash
+npm run build
+npm start
+```
+
+The application and its contact-form API run together in Next.js. Deploy it to a Next.js-compatible host such as Vercel, and configure the email environment variables there.

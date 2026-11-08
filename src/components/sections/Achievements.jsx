@@ -8,7 +8,7 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { ChevronLeft, ChevronRight, Close } from "@mui/icons-material";
 import { goldMedalHonour } from "../../data/constants";
-import goldMedal from "../../images/education/gold-medal.png";
+const goldMedal = "/images/education/gold-medal.png";
 
 const GOLD = "#f5d76e";
 

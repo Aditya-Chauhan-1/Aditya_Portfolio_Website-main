@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Link as LinkR, useLocation, useNavigate } from "react-router-dom";
+import LinkR from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import styled from "styled-components";
 import { Bio } from "../data/constants";
 import {
@@ -374,10 +375,10 @@ const Navbar = ({ themeMode, toggleTheme }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [active, setActive] = useState("Skills");
-  const location = useLocation();
-  const navigate = useNavigate();
+  const pathname = usePathname();
+  const router = useRouter();
   useEffect(() => {
-    if (location.pathname !== "/") return undefined;
+    if (pathname !== "/") return undefined;
 
     const ids = NAV_LINKS.map((link) => link.id);
     let ticking = false;
@@ -418,7 +419,7 @@ const Navbar = ({ themeMode, toggleTheme }) => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [location.pathname]);
+  }, [pathname]);
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -463,9 +464,8 @@ const Navbar = ({ themeMode, toggleTheme }) => {
     setIsMoreOpen(false);
     setActive(link.id);
 
-    if (location.pathname !== "/") {
-      navigate("/");
-      setTimeout(() => scrollToId(link.id), 120);
+    if (pathname !== "/") {
+      router.push(`/#${link.id}`);
       return;
     }
 
@@ -476,7 +476,7 @@ const Navbar = ({ themeMode, toggleTheme }) => {
     <Nav>
       <NavbarContainer>
         <NavLogo
-          to="/"
+          href="/"
           onClick={() => {
             setIsOpen(false);
             setActive("Skills");

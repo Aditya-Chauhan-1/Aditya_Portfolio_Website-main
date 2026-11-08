@@ -1,19 +1,22 @@
+"use client";
+
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import styled, { ThemeProvider } from "styled-components";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { darkTheme, lightTheme } from "./utils/Themes";
 import { toast } from "./utils/toast";
 import Navbar from "./components/Navbar";
-import StarCanvas from "./components/canvas/Stars";
 import ScrollToTop from "./components/ScrollToTop";
 import WhatsAppFloat from "./components/WhatsAppFloat";
 import PageProgress from "./components/PageProgress";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Preloader from "./components/Preloader";
 import { ToastProvider } from "./components/Toast";
-import Home from "./pages/Home";
-import Achievements from "./pages/Achievements";
-import Seo from "./components/Seo";
+import Home from "./components/pages/Home";
+
+const StarCanvas = dynamic(() => import("./components/canvas/Stars"), {
+  ssr: false,
+});
 
 const Body = styled.div`
   background-color: ${({ theme }) => theme.bg};
@@ -68,25 +71,19 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <ErrorBoundary>
-        <BrowserRouter>
-          {showLoader && <Preloader onComplete={() => setShowLoader(false)} />}
-          <PageProgress />
-          <a href="#Home" className="skip-link">
-            Skip to content
-          </a>
-          <Seo />
-          <Navbar themeMode={currentTheme} toggleTheme={toggleTheme} />
-          <Body>
-            <StarCanvas />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/achievements" element={<Achievements />} />
-            </Routes>
-            <ScrollToTop />
-            <WhatsAppFloat />
-            <ToastProvider toasts={toasts} onClose={handleCloseToast} />
-          </Body>
-        </BrowserRouter>
+        {showLoader && <Preloader onComplete={() => setShowLoader(false)} />}
+        <PageProgress />
+        <a href="#Home" className="skip-link">
+          Skip to content
+        </a>
+        <Navbar themeMode={currentTheme} toggleTheme={toggleTheme} />
+        <Body>
+          <StarCanvas />
+          <Home />
+          <ScrollToTop />
+          <WhatsAppFloat />
+          <ToastProvider toasts={toasts} onClose={handleCloseToast} />
+        </Body>
       </ErrorBoundary>
     </ThemeProvider>
   );

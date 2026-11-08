@@ -36,7 +36,13 @@ const PageProgress = () => {
   }, []);
 
   return (
-    <ProgressBar role="progressbar" aria-valuenow={Math.round(progress)} aria-valuemin="0" aria-valuemax="100">
+    <ProgressBar
+      role="progressbar"
+      aria-label="Page reading progress"
+      aria-valuenow={Math.round(progress)}
+      aria-valuemin="0"
+      aria-valuemax="100"
+    >
       <ProgressFill $progress={progress} />
     </ProgressBar>
   );

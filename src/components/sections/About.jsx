@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Bio, stats } from "../../data/constants";
-import HeroImg from "../../images/HeroImage.jpg";
+const HeroImg = "/images/HeroImage.jpg";
 import SectionHeader from "../SectionHeader";
 
 const Container = styled.section`

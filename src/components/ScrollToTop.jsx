@@ -37,9 +37,9 @@ const ScrollButton = styled.button`
   box-shadow: 0 4px 12px rgba(133, 76, 230, 0.4);
   z-index: 1000;
   transition: all 0.3s ease-in-out;
-  opacity: ${({ visible }) => (visible ? "1" : "0")};
-  visibility: ${({ visible }) => (visible ? "visible" : "hidden")};
-  transform: ${({ visible }) => (visible ? "translateY(0)" : "translateY(20px)")};
+  opacity: ${({ $visible }) => ($visible ? "1" : "0")};
+  visibility: ${({ $visible }) => ($visible ? "visible" : "hidden")};
+  transform: ${({ $visible }) => ($visible ? "translateY(0)" : "translateY(20px)")};
 
   &:hover {
     transform: translateY(-5px);
@@ -89,7 +89,7 @@ const ScrollToTop = () => {
   };
 
   return (
-    <ScrollButton visible={isVisible} onClick={scrollToTop} aria-label="Scroll to top">
+    <ScrollButton $visible={isVisible} onClick={scrollToTop} aria-label="Scroll to top">
       <IconWrapper>
         <KeyboardArrowUp />
       </IconWrapper>
@@ -98,4 +98,3 @@ const ScrollToTop = () => {
 };
 
 export default ScrollToTop;
-

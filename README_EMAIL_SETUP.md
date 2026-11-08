@@ -11,44 +11,39 @@ This guide will help you set up the Resend API for the contact form.
 
 ## Step 2: Configure Environment Variables
 
-1. In the root directory of your project, create a `.env.local` file:
-   ```bash
-   copy .env.example .env.local
-   ```
-
-3. Open `.env.local` and add your actual values:
+1. In the root directory of your project, create a `.env.local` file with your actual values:
 
    ```env
-   # Server-only Resend secret. Never use the REACT_APP_ prefix for secrets.
+   # Server-only Resend secret. Never use the NEXT_PUBLIC_ prefix for secrets.
    RESEND_API_KEY=re_your_actual_api_key_here
 
    # Your Email Address (where you want to receive contact form emails)
-   REACT_APP_CONTACT_EMAIL=aadityachauhan6395@gmail.com
+   CONTACT_EMAIL=aadityachauhan6395@gmail.com
 
    # From Email (should be verified in Resend)
    # For testing, you can use: onboarding@resend.dev
    # For production, verify your own domain in Resend
-   REACT_APP_FROM_EMAIL=onboarding@resend.dev
+   FROM_EMAIL=onboarding@resend.dev
    ```
 
 ## Step 3: Verify Your Domain (Optional but Recommended for Production)
 
 1. Go to [Resend Dashboard](https://resend.com/domains)
 2. Add and verify your domain
-3. Update `REACT_APP_FROM_EMAIL` in `.env.local` to use your verified domain email
+3. Update `FROM_EMAIL` in `.env.local` to use your verified domain email
 
 ## Step 4: Restart Your Development Server
 
-After updating the `.env` file, restart your React development server:
+After updating the `.env.local` file, restart the Next.js development server:
 
 ```bash
-npm start
+npm run dev
 ```
 
 ## Important Notes
 
 - ⚠️ **Never commit your `.env.local` file to Git** - it's already in `.gitignore`
-- ✅ The `.env.example` file is safe to commit (it doesn't contain real keys)
+- ✅ The environment variable names are safe to document; keep the actual API key private.
 - 🔒 Keep your API key secure and don't share it publicly
 - 📧 For production, make sure to verify your domain in Resend
 
@@ -70,7 +65,7 @@ npm start
 ### API Key Issues?
 - Make sure the API key starts with `re_`
 - Ensure there are no extra spaces in the `.env` file
-- Check that the variable name is exactly `RESEND_API_KEY`; do not use a `REACT_APP_` prefix for secrets
+- Check that the variable name is exactly `RESEND_API_KEY`; do not use a `NEXT_PUBLIC_` prefix for secrets
 
 ## Support
 

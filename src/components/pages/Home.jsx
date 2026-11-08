@@ -1,21 +1,19 @@
 import { useState, useEffect, Suspense, lazy } from "react";
-import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { AnimatePresence } from "framer-motion";
-import Hero from "../components/sections/Hero";
-import About from "../components/sections/About";
-import Services from "../components/sections/Services";
-import Skills from "../components/sections/Skills";
-import Education from "../components/sections/Education";
-import Experience from "../components/sections/Experience";
-import Projects from "../components/sections/Projects";
-import Achievements from "../components/sections/Achievements";
-import Certificates from "../components/sections/Certificates";
-import Contact from "../components/sections/Contact";
-import Footer from "../components/sections/Footer";
-import LoadingSpinner from "../components/LoadingSpinner";
+import Hero from "../sections/Hero";
+import About from "../sections/About";
+import Services from "../sections/Services";
+import Skills from "../sections/Skills";
+import Education from "../sections/Education";
+import Experience from "../sections/Experience";
+import Projects from "../sections/Projects";
+import Achievements from "../sections/Achievements";
+import Certificates from "../sections/Certificates";
+import Contact from "../sections/Contact";
+import Footer from "../sections/Footer";
+import LoadingSpinner from "../LoadingSpinner";
 
-const ProjectDetails = lazy(() => import("../components/Dialog/ProjectDetails"));
+const ProjectDetails = lazy(() => import("../Dialog/ProjectDetails"));
 
 const Wrapper = styled.div`
   padding-bottom: 64px;
@@ -56,10 +54,9 @@ const Wrapper = styled.div`
 
 const Home = () => {
   const [openModal, setOpenModal] = useState({ state: false, project: null });
-  const location = useLocation();
 
   useEffect(() => {
-    const id = location.hash.replace("#", "");
+    const id = window.location.hash.replace("#", "");
     if (!id) return;
     const timer = setTimeout(() => {
       const element = document.getElementById(id);
@@ -68,11 +65,11 @@ const Home = () => {
       window.scrollTo({ top, behavior: "smooth" });
     }, 80);
     return () => clearTimeout(timer);
-  }, [location.hash]);
+  }, []);
 
   return (
-    <AnimatePresence>
-      <div>
+    <>
+      <main id="Home" tabIndex="-1">
         <Hero />
         <About />
         <Services />
@@ -87,15 +84,15 @@ const Home = () => {
           <Certificates />
           <Contact />
         </Wrapper>
-        <Footer />
+      </main>
+      <Footer />
 
-        {openModal.state && (
-          <Suspense fallback={<LoadingSpinner />}>
-            <ProjectDetails openModal={openModal} setOpenModal={setOpenModal} />
-          </Suspense>
-        )}
-      </div>
-    </AnimatePresence>
+      {openModal.state && (
+        <Suspense fallback={<LoadingSpinner />}>
+          <ProjectDetails openModal={openModal} setOpenModal={setOpenModal} />
+        </Suspense>
+      )}
+    </>
   );
 };
 

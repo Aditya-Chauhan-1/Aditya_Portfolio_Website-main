@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
-import imgOutdoors from "../images/loading-screen/aditya-outdoors.jpeg";
-import imgTemple from "../images/loading-screen/aditya-temple.jpeg";
-import imgUjjain from "../images/loading-screen/aditya-ujjain.jpeg";
-import imgWorkspace from "../images/loading-screen/aditya-workspace.jpeg";
-import imgWorkspaceClose from "../images/loading-screen/aditya-workspace-close.jpeg";
+const imgOutdoors = "/images/loading-screen/aditya-outdoors.jpeg";
+const imgTemple = "/images/loading-screen/aditya-temple.jpeg";
+const imgUjjain = "/images/loading-screen/aditya-ujjain.jpeg";
+const imgWorkspace = "/images/loading-screen/aditya-workspace.jpeg";
+const imgWorkspaceClose = "/images/loading-screen/aditya-workspace-close.jpeg";
 
 const DURATION_MS = 6500;
 const EXIT_MS = 700;
@@ -265,18 +265,21 @@ const RoleSlash = styled.span`
 `;
 
 const Preloader = ({ onComplete }) => {
-  const [slide] = useState(pickSlide);
+  const [slide, setSlide] = useState(SLIDES[0]);
   const [ready, setReady] = useState(false);
   const [exiting, setExiting] = useState(false);
-  const motion =
-    typeof window === "undefined" ||
-    !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const [motion, setMotion] = useState(true);
   const duration = motion ? DURATION_MS : 1200;
   const exitingRef = useRef(false);
   const startRef = useRef(0);
   const frameRef = useRef(0);
   const percentRef = useRef(null);
   const imgRef = useRef(null);
+
+  useEffect(() => {
+    setSlide(pickSlide());
+    setMotion(!window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
 
   const finish = useCallback(() => {
     if (exitingRef.current) return;
@@ -298,7 +301,8 @@ const Preloader = ({ onComplete }) => {
   }, []);
 
   useEffect(() => {
-    if (imgRef.current?.complete) setReady(true);
+    const image = imgRef.current;
+    setReady(Boolean(image?.complete && image.naturalWidth > 0));
   }, [slide]);
 
   useEffect(() => {

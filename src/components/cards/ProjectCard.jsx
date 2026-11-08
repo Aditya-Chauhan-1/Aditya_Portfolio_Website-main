@@ -12,7 +12,7 @@ const fadeInUp = keyframes`
   }
 `;
 
-const Card = styled.div`
+const Card = styled.article`
   width: 330px;
   min-height: 520px;
   height: auto;
@@ -28,7 +28,7 @@ const Card = styled.div`
   transition: all 0.5s ease-in-out;
   animation: ${fadeInUp} 0.6s ease-out forwards;
   opacity: 0;
-  animation-delay: ${({ index }) => (index || 0) * 0.1}s;
+  animation-delay: ${({ $index }) => ($index || 0) * 0.1}s;
 
   &:hover {
     transform: translateY(-10px);
@@ -154,6 +154,27 @@ const ActionButton = styled.a`
   }
 `;
 
+const DetailsButton = styled.button`
+  flex: 1;
+  text-align: center;
+  text-decoration: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: ${({ theme }) => theme.primary};
+  background: transparent;
+  border: 1px solid ${({ theme }) => theme.primary};
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+  }
+`;
+
 const FallbackImage = styled.div`
   width: 100%;
   height: 190px;
@@ -172,9 +193,14 @@ const FallbackImage = styled.div`
 
 const ProjectCard = ({ project, setOpenModal, index }) => {
   const [imgError, setImgError] = React.useState(false);
+  const openDetails = () =>
+    setOpenModal({ state: true, project });
 
   return (
-    <Card index={index} onClick={() => setOpenModal({ state: true, project: project })}>
+    <Card
+      $index={index}
+      onClick={openDetails}
+    >
       {project.image && !imgError ? (
         <Image
           src={project.image}
@@ -197,6 +223,16 @@ const ProjectCard = ({ project, setOpenModal, index }) => {
         <Description>{project.description}</Description>
       </Details>
       <ButtonRow>
+        <DetailsButton
+          type="button"
+          aria-label={`View details for ${project.title}`}
+          onClick={(event) => {
+            event.stopPropagation();
+            openDetails();
+          }}
+        >
+          Details
+        </DetailsButton>
         {project.pdf && (
           <ActionButton
             href={project.pdf}

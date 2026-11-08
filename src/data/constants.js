@@ -1,15 +1,15 @@
-import immigrationImg from "../images/projects/immigration.jpg";
-import mernCrudImg from "../images/projects/mern-crud.jpg";
-import weatherImg from "../images/projects/weather.jpg";
-import ecommerceImg from "../images/projects/ecommerce.jpg";
-import qrImg from "../images/projects/qr.jpg";
-import todoImg from "../images/projects/todo.jpg";
-import mlWorkbenchImg from "../images/projects/ml-workbench.png";
-import agronoidPhoto from "../images/projects/agronoid-2.jpg";
-import agronoidDiagram from "../images/projects/agronoid-smart-farm.png";
-import iftmGoldMedal from "../images/education/iftm-gold-medal.jpg";
-import iftmGoldMedalCertificate from "../images/education/iftm-gold-medal-certificate.jpg";
-import iftmDiplomaCse from "../images/education/iftm-diploma-cse.jpg";
+const immigrationImg = "/images/projects/immigration.jpg";
+const mernCrudImg = "/images/projects/mern-crud.jpg";
+const weatherImg = "/images/projects/weather.jpg";
+const ecommerceImg = "/images/projects/ecommerce.jpg";
+const qrImg = "/images/projects/qr.jpg";
+const todoImg = "/images/projects/todo.jpg";
+const mlWorkbenchImg = "/images/projects/ml-workbench.png";
+const agronoidPhoto = "/images/projects/agronoid-2.jpg";
+const agronoidDiagram = "/images/projects/agronoid-smart-farm.png";
+const iftmGoldMedal = "/images/education/iftm-gold-medal.jpg";
+const iftmGoldMedalCertificate = "/images/education/iftm-gold-medal-certificate.jpg";
+const iftmDiplomaCse = "/images/education/iftm-diploma-cse.jpg";
 
 export { certificates } from "./certificates";
 
@@ -464,7 +464,7 @@ export const projects = [
     images: [agronoidPhoto, agronoidDiagram],
     tags: ["Arduino", "Bluetooth HC-05", "Embedded C", "IoT", "Android", "DHT11", "L298N"],
     category: "robotics",
-    pdf: `${process.env.PUBLIC_URL}/docs/agronoid.pdf`,
+    pdf: "/docs/agronoid.pdf",
   },
   {
     id: 1,

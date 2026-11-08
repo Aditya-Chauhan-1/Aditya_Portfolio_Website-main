@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import { motion } from "framer-motion";
-import { useLocation, useNavigate } from "react-router-dom";
+import { usePathname, useRouter } from "next/navigation";
 import { Bio } from "../../data/constants";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -271,15 +271,14 @@ const scrollToSection = (targetId) => {
 };
 
 const Footer = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const handleNavClick = (e, item) => {
     e.preventDefault();
 
-    if (location.pathname !== "/") {
-      navigate("/");
-      setTimeout(() => scrollToSection(item.section), 120);
+    if (pathname !== "/") {
+      router.push(`/#${item.section}`);
       return;
     }
 

@@ -1,10 +1,11 @@
 import React from "react";
+import dynamic from "next/dynamic";
 import styled from "styled-components";
 import { Bio } from "../../data/constants";
-import Typewriter from "typewriter-effect";
-import HeroImg from "../../images/HeroImage.jpg";
+import { TypeAnimation } from "react-type-animation";
+const HeroImg = "/images/HeroImage.jpg";
 import HeroBgAnimation from "../HeroBgAnimation";
-import { Tilt } from "react-tilt";
+import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -16,7 +17,8 @@ import {
   headContentAnimation,
   headTextAnimation,
 } from "../../utils/motion";
-import StarCanvas from "../canvas/Stars";
+
+const StarCanvas = dynamic(() => import("../canvas/Stars"), { ssr: false });
 
 const HeroContainer = styled.div`
   display: flex;
@@ -399,8 +401,7 @@ const Badge = styled.div`
 
 const Hero = () => {
   return (
-    <div id="Home">
-      <HeroContainer>
+    <HeroContainer>
         <HeroBg>
           <StarCanvas />
           <HeroBgAnimation />
@@ -417,12 +418,11 @@ const Hero = () => {
                 <TextLoop>
                   I am a
                   <Span>
-                    <Typewriter
-                      options={{
-                        strings: Bio.roles,
-                        autoStart: true,
-                        loop: true,
-                      }}
+                    <TypeAnimation
+                      sequence={Bio.roles.flatMap((role) => [role, 2000])}
+                      wrapper="span"
+                      speed={50}
+                      repeat={Infinity}
                     />
                   </Span>
                 </TextLoop>
@@ -478,8 +478,7 @@ const Hero = () => {
             </HeroRightContainer>
           </HeroInnerContainer>
         </motion.div>
-      </HeroContainer>
-    </div>
+    </HeroContainer>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 import { skills } from "../../data/constants";
-import { Tilt } from "react-tilt";
+import Tilt from "react-parallax-tilt";
 import SectionHeader from "../SectionHeader";
 
 const fadeInUp = keyframes`
@@ -85,7 +85,7 @@ const Skill = styled.div`
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   animation: ${fadeInUp} 0.6s ease-out forwards;
   opacity: 0;
-  animation-delay: ${({ index }) => (index || 0) * 0.15}s;
+  animation-delay: ${({ $index }) => ($index || 0) * 0.15}s;
   
   &:hover {
     transform: translateY(-5px);
@@ -238,7 +238,7 @@ const Skills = () => {
         <SkillsContainer>
           {skills.map((skill, index) => (
             <Tilt key={`skill-${index}`}>
-              <Skill index={index}>
+              <Skill $index={index}>
                 <SkillTitle>{skill.title}</SkillTitle>
                 {skill.groups ? (
                   skill.groups.map((group) => (

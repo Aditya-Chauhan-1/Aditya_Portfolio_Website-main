@@ -25,9 +25,9 @@ const fadeInRight = keyframes`
 `;
 
 const AnimatedContent = styled.div`
-  ${({ isEven, index }) => css`
-    animation: ${isEven ? fadeInLeft : fadeInRight} 0.6s ease-out forwards;
-    animation-delay: ${(index || 0) * 0.2}s;
+  ${({ $isEven, $index }) => css`
+    animation: ${$isEven ? fadeInLeft : fadeInRight} 0.6s ease-out forwards;
+    animation-delay: ${($index || 0) * 0.2}s;
     opacity: 0;
   `}
 `;
@@ -160,7 +160,7 @@ const ExperienceCard = ({ experience, index }) => {
       }}
       date={experience.date}
     >
-      <AnimatedContent isEven={isEven} index={index}>
+      <AnimatedContent $isEven={isEven} $index={index}>
         <Top>
           <Image src={experience.img} />
           <Body>

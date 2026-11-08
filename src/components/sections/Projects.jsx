@@ -63,7 +63,11 @@ const ToggleButtonGroup = styled.div`
   }
 `;
 
-const ToggleButton = styled.div`
+const ToggleButton = styled.button`
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
   padding: 8px 18px;
   border-radius: 6px;
   cursor: pointer;
@@ -85,8 +89,8 @@ const ToggleButton = styled.div`
     font-size: 10px;
   }
   
-  ${({ active, theme }) =>
-    active &&
+  ${({ $active, theme }) =>
+    $active &&
     `
     background: ${theme.primary + 20};
     color: ${theme.primary};
@@ -169,12 +173,14 @@ const Projects = ({ setOpenModal }) => {
           description="A collection of web apps, machine learning tools, and robotics work I've built — from client platforms to embedded farm automation."
         />
         {visibleCategories.length > 1 && (
-          <ToggleButtonGroup>
+          <ToggleButtonGroup role="group" aria-label="Filter projects by category">
             {visibleCategories.map((category, index) => (
               <React.Fragment key={category.key}>
                 {index > 0 && <Divider />}
                 <ToggleButton
-                  active={toggle === category.key}
+                  type="button"
+                  $active={toggle === category.key}
+                  aria-pressed={toggle === category.key}
                   onClick={() => setToggle(category.key)}
                 >
                   {category.label}

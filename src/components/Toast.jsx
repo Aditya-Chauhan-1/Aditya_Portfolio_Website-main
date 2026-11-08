@@ -121,7 +121,12 @@ const ToastComponent = ({ toast, onClose }) => {
   };
 
   return (
-    <Toast type={toast.type} className={toast.closing ? 'closing' : ''}>
+    <Toast
+      type={toast.type}
+      className={toast.closing ? 'closing' : ''}
+      role={toast.type === "error" ? "alert" : "status"}
+      aria-live={toast.type === "error" ? "assertive" : "polite"}
+    >
       <IconWrapper>{getIcon()}</IconWrapper>
       <Message>{toast.message}</Message>
       <CloseButton onClick={() => onClose(toast.id)} aria-label="Close toast">
@@ -133,7 +138,7 @@ const ToastComponent = ({ toast, onClose }) => {
 
 export const ToastProvider = ({ toasts, onClose }) => {
   return (
-    <ToastContainer role="region" aria-label="Notifications">
+    <ToastContainer role="region" aria-label="Notifications" aria-live="polite">
       {toasts.map((toast) => (
         <ToastComponent key={toast.id} toast={toast} onClose={onClose} />
       ))}
@@ -142,4 +147,3 @@ export const ToastProvider = ({ toasts, onClose }) => {
 };
 
 export default ToastComponent;
-

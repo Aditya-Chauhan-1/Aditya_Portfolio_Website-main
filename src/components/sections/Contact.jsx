@@ -1,9 +1,11 @@
 import React, { useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import styled from "styled-components";
-import EarthCanvas from "../canvas/Earth";
 import { sendEmail } from "../../utils/emailService";
 import { toast } from "../../utils/toast";
 import SectionHeader from "../SectionHeader";
+
+const EarthCanvas = dynamic(() => import("../canvas/Earth"), { ssr: false });
 
 const Container = styled.div`
   display: flex;
@@ -248,42 +250,27 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const submitButton = e.target.querySelector('input[type="submit"]');
-    const originalValue = submitButton.value;
-    
-    setIsSubmitting(true);
-    submitButton.value = "Sending...";
-    submitButton.disabled = true;
-
-    // Get form data
+    const values = new FormData(e.currentTarget);
     const formData = {
-      from_name: form.current.from_name.value,
-      from_email: form.current.from_email.value,
-      from_mobile: form.current.from_mobile.value,
-      subject: form.current.subject.value,
-      message: form.current.message.value,
+      from_name: String(values.get("from_name") || "").trim(),
+      from_email: String(values.get("from_email") || "").trim(),
+      from_mobile: String(values.get("from_mobile") || "").trim(),
+      subject: String(values.get("subject") || "").trim(),
+      message: String(values.get("message") || "").trim(),
     };
 
-    // Validate form
     if (!formData.from_email || !formData.from_name || !formData.message) {
       toast.error("Please fill in all required fields (Name, Email, and Message)");
-      submitButton.value = originalValue;
-      submitButton.disabled = false;
-      setIsSubmitting(false);
       return;
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.from_email)) {
       toast.error("Please enter a valid email address");
-      submitButton.value = originalValue;
-      submitButton.disabled = false;
-      setIsSubmitting(false);
       return;
     }
 
+    setIsSubmitting(true);
     try {
       await sendEmail(formData);
       toast.success("Message sent successfully. I will get back to you soon!");
@@ -295,8 +282,6 @@ const Contact = () => {
           "Failed to send message. Please try again later or contact me directly."
       );
     } finally {
-      submitButton.value = originalValue;
-      submitButton.disabled = false;
       setIsSubmitting(false);
     }
   };
@@ -317,30 +302,38 @@ const Contact = () => {
               <ContactTitle>Email Me</ContactTitle>
               <ContactInput 
                 placeholder="Your Email *" 
+                aria-label="Your email address"
                 name="from_email" 
                 type="email"
+                autoComplete="email"
                 required
                 disabled={isSubmitting}
               />
               <ContactInput 
                 placeholder="Your Name *" 
+                aria-label="Your name"
                 name="from_name" 
+                autoComplete="name"
                 required
                 disabled={isSubmitting}
               />
               <ContactInput 
                 placeholder="Your Mobile Number" 
+                aria-label="Your mobile number"
                 name="from_mobile" 
                 type="tel"
+                autoComplete="tel"
                 disabled={isSubmitting}
               />
               <ContactInput 
                 placeholder="Subject" 
+                aria-label="Message subject"
                 name="subject" 
                 disabled={isSubmitting}
               />
               <ContactInputMessage 
                 placeholder="Message *" 
+                aria-label="Your message"
                 name="message" 
                 rows={4} 
                 required

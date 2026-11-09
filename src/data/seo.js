@@ -2,12 +2,13 @@ export const SITE_URL = "https://adityasir.in";
 
 export const seo = {
   name: "Aditya Chauhan Sir",
-  title: "Aditya Chauhan Sir | Software Engineer & Data Science Specialist",
+  title: "Aditya Chauhan Sir | Data Science Specialist & Software Engineer",
   description:
-    "Aditya Chauhan Sir is a Software Engineer, Technical Corporate Trainer, Data Scientist, and AI Trainer based in Amroha, Uttar Pradesh, India. Explore his work, projects, and training.",
-  jobTitle: "Software Engineer, Technical Corporate Trainer & Data Scientist",
+    "Meet Aditya Chauhan Sir, a Data Science Specialist and Software Engineer in Amroha, India. Explore his AI and corporate training, projects, achievements, and skills.",
+  jobTitle:
+    "Data Science Specialist, Software Engineer & Technical Corporate Trainer",
   keywords:
-    "Aditya Chauhan Sir, Software Engineer, Technical Corporate Trainer, Data Scientist, AI Trainer, Generative AI Trainer, Full Stack Developer, MERN Stack, React, Node.js, Python, Corporate IT Trainer, Amroha, India",
+    "Aditya Chauhan Sir, Aditya Chauhan, Data Science Specialist, Software Engineer, Data Science Specialist and Software Engineer, Data Scientist, Technical Corporate Trainer, AI Trainer, Generative AI Trainer, Full Stack Developer, MERN Stack Developer, React, Node.js, Python, Corporate IT Trainer, Amroha, Uttar Pradesh, India",
   image: `${SITE_URL}/images/HeroImage.jpg`,
   photo: `${SITE_URL}/images/HeroImage.jpg`,
   email: "aadityachauhan6395@gmail.com",

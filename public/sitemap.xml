@@ -3,17 +3,15 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://adityasir.in/</loc>
-    <lastmod>2026-11-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
     <image:image>
       <image:loc>https://adityasir.in/images/HeroImage.jpg</image:loc>
       <image:title>Aditya Chauhan Sir</image:title>
-      <image:caption>Aditya Chauhan Sir — Software Engineer, Technical Corporate Trainer, Data Scientist and AI Trainer</image:caption>
+      <image:caption>Portrait of Aditya Chauhan Sir, Software Engineer, Technical Corporate Trainer, Data Scientist and AI Trainer in India</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://adityasir.in/images/education/iftm-gold-medal.jpg</image:loc>
       <image:title>Aditya Chauhan IFTM University Gold Medal</image:title>
+      <image:caption>Aditya Chauhan's IFTM University Gold Medal</image:caption>
     </image:image>
   </url>
 </urlset>

@@ -19,15 +19,15 @@ export const Bio = {
   roles: [
     "Software Engineer",
     "Technical Corporate Trainer",
-    "Data Scientist",
+    "Data Science Specialist",
     "AI Trainer",
     "Frontend Engineer",
     "Backend Engineer",
   ],
   description:
-    "I’m Aditya Chauhan, a Software Engineer, Technical Corporate Trainer, Data Scientist, and AI Trainer. I work with international clients and mentor students and professionals in Full-Stack Development, Data Science, and AI.",
+    "I’m Aditya Chauhan, a Data Science Specialist, Software Engineer, Technical Corporate Trainer, and AI Trainer. I work with international clients and mentor students and professionals in Full-Stack Development, Data Science, and AI.",
   aboutDescription:
-    "I’m Aditya Chauhan, a Software Engineer, Technical Corporate Trainer, Data Scientist, and AI Trainer with experience working with international clients. I specialize in Full-Stack Development, Data Science, and Artificial Intelligence, empowering students and working professionals through practical, industry-oriented training. I’m also passionate about mentoring aspiring professionals, guiding them in building real-world projects, strengthening their technical skills, and preparing for successful careers in the technology industry.",
+    "I’m Aditya Chauhan, a Data Science Specialist, Software Engineer, Technical Corporate Trainer, and AI Trainer with experience working with international clients. I specialize in Full-Stack Development, Data Science, and Artificial Intelligence, empowering students and working professionals through practical, industry-oriented training. I’m also passionate about mentoring aspiring professionals, guiding them in building real-world projects, strengthening their technical skills, and preparing for successful careers in the technology industry.",
   email: "aadityachauhan6395@gmail.com",
   location: "Amroha, Uttar Pradesh, India",
   availability: "Open to opportunities",

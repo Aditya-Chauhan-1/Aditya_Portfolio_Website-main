@@ -8,8 +8,8 @@ const structuredData = {
     {
       "@type": "Person",
       "@id": `${SITE_URL}/#person`,
-      name: seo.name,
-      alternateName: "Aditya Chauhan",
+      name: seo.personName,
+      alternateName: seo.name,
       url: SITE_URL,
       image: seo.photo,
       jobTitle: seo.jobTitle,
@@ -22,6 +22,13 @@ const structuredData = {
         addressRegion: "Uttar Pradesh",
         addressCountry: "IN",
       },
+      knowsAbout: [
+        "Data Science",
+        "Software Engineering",
+        "Artificial Intelligence",
+        "Full-Stack Development",
+        "Technical Corporate Training",
+      ],
       sameAs: seo.sameAs,
     },
     {
@@ -42,9 +49,12 @@ const structuredData = {
       inLanguage: "en-IN",
       isPartOf: { "@id": `${SITE_URL}/#website` },
       about: { "@id": `${SITE_URL}/#person` },
+      mainEntity: { "@id": `${SITE_URL}/#person` },
       primaryImageOfPage: {
         "@type": "ImageObject",
         url: seo.image,
+        width: 1200,
+        height: 630,
       },
     },
   ],
@@ -85,6 +95,9 @@ export const metadata = {
       {
         url: seo.image,
         alt: `Portrait of ${seo.name}`,
+        width: 1200,
+        height: 630,
+        type: "image/jpeg",
       },
     ],
   },

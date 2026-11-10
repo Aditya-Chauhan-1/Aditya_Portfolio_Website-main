@@ -146,7 +146,7 @@ const About = () => {
       <Wrapper>
         <SectionHeader
           title="About Me"
-          description="Software Engineer, Technical Corporate Trainer, Data Scientist, and AI Trainer."
+          description="Data Science Specialist, Software Engineer, Technical Corporate Trainer, and AI Trainer."
         />
         <Grid>
           <PhotoWrap>
